@@ -1,4 +1,4 @@
-﻿function GetConfig ()
+function GetConfig ()
 	return {
         Bundle = "Assets/Bundles/Views/MainMenu/SubViews/ElderDialogue.prefab",
 		Config = ""
@@ -11,9 +11,9 @@ local _nextButtonPath = "button_NextContent"
 local _skipButtonPath = "button_SkipContent"
 
 local _sentences = {
-	"Hi, I'm Elfo",
-	"bla...bla...bla...",
-	"blablabla...bla...bla..etc.."
+	"Welcome Helutian! The Silencing has wiped out our memory. We knew this would happen. We began storing everything we knew into a digital archive.",
+	"The device you hold in your hands is our Helutian memory. Treat it well. It will be your best friend.",
+	"As you review the modules in this digital archive, you will acquire the knowledge needed to rebuild our world. Are you ready?"
 }
 
 function OnReady()
