@@ -20,14 +20,9 @@ local _buttonMailPath = "Bg/body/groupBtnRight/mailBtn"
 local _noticeMailPath = "Bg/body/groupBtnRight/mailBtn/iconRed"
 
 function OnReady()
-	SetupButtonGender(_buttonGenderPath)
-	SetupButtonIsland(_buttonIslandPath)
-
 	SetupButtonSkin(_buttonSkinPath)
 
 	SetupButtonMail(_buttonMailPath)
-
-	SetupButtonPVP(_buttonPVPPath)
 end
 
 function SetupButton(animName, btnPath, index)
@@ -45,13 +40,6 @@ function SetupButtonGender(btnPath)
     end)
 end
 
-function SetupButtonIsland(btnPath)
-	local btn = LuaGo.Find(btnPath)
-	btn.RegisterButtonPressedCallback(function ()
-		Lobby.LuaCall_LoadMapIsland()
-    end)
-end
-
 function SetupButtonSkin(btnPath)
 	local btn = LuaGo.Find(btnPath)
 	btn.RegisterButtonPressedCallback(function ()
@@ -64,14 +52,6 @@ function SetupButtonMail(btnPath)
 	btn.RegisterButtonPressedCallback(function ()
 		Lobby.LuaCall_LoadMailBox()
 	end)
-end
-
-
-function SetupButtonPVP(btnPath)
-	local btn = LuaGo.Find(btnPath)
-	btn.RegisterButtonPressedCallback(function ()
-		Lobby.LuaCall_JoinPvp()
-    end)
 end
 
 function NoticeMail(isActive)

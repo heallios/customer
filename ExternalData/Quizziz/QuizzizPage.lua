@@ -84,6 +84,9 @@ function ChooseAnswer(isCorrect, btnId)
 		ClearAllButtonClick()
 	end
 
+	local playerChoose = LuaGo.Find(_buttonPlayerChoosePaths[btnId])
+	playerChoose.SetActive(true)
+
 	QuizitPvp.LuaCall_PlayerBtnIdChoose(btnId)
 end
 
@@ -100,10 +103,9 @@ function ShowWhenTimeOut()
 end
 
 function ShowChoosen()
-	if QuizitPvp.Model.PlayerBtnId > 0 then
-		local playerChoose = LuaGo.Find(_buttonPlayerChoosePaths[QuizitPvp.Model.PlayerBtnId])
-		playerChoose.SetActive(true)
-	end
+	--if QuizitPvp.Model.PlayerBtnId > 0 then
+
+	--end
 
 	local botChoose = LuaGo.Find(_buttonBotChoosePaths[QuizitPvp.Model.BotBtnId])
 	botChoose.SetActive(true)
