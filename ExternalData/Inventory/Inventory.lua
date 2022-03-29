@@ -1,7 +1,10 @@
 ﻿function GetConfig ()
 	return {
         Bundle = "Assets/Bundles/Views/Inventory/Inventory.prefab",
-		Config = ""
+		Config = "",
+		Anchor = "Front",
+		AnchorPreset = "StretchAll",
+		SizeDelta = "{x: 0, y: 0}"
     }
 end
 

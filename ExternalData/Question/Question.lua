@@ -150,7 +150,7 @@ local _quitQuizitPath = "PopupGroup/PausePanel/Popup/quitBtn"
 
 local _pausePanelPath = "PopupGroup/PausePanel"
 
-local _endQuizitResetBtnPath = "PopupGroup/EndPanelQuizit/ButtonGroup/ResetBtn"
+local _endQuizitLearnMoreBtnPath = "PopupGroup/EndPanelQuizit/ButtonGroup/LearnMoreBtn"
 local _endQuizitQuitBtnPath = "PopupGroup/EndPanelQuizit/ButtonGroup/QuitBtn"
 
 local _popupPath = "PopupGroup/PopupPanel"
@@ -173,8 +173,12 @@ local _playIcon = "Btn_Play"
 
 local _titleQuestionPath = "head/headBg/title"
 
+local _circlePath = "head/circleBg"
+local _infoPath = "head/infoBg"
 local _islandTxtPath = "head/infoBg/islandTxt"
 local _cellIdTxtPath = "head/infoBg/cellTxt"
+local _numberQuizitPath = "head/QuizitHead/headBar/BGQuizitNumber/txtNumberQuizit"
+local numQuizit = 0
 
 function OnReady()
 	FindUI()
@@ -202,7 +206,6 @@ function OnReady()
 
 	SetupButtonReset(_resetBtnPath)
 	SetupButtonReset(_resetQuizitPath)
-	SetupButtonReset(_endQuizitResetBtnPath)
 
 	SetupButtonQuit(_quitBtnPath)
 	SetupButtonQuit(_quitQuizitPath)
@@ -212,6 +215,8 @@ function OnReady()
 	SetupButtonNextTransition(_btnNextTransitionPath)
 	SetupButtonNextEndScreen(_btnNextEndScreenPath)
 	SetupButtonExitEndScreen(_btnExitEndScreenPath)
+
+	SetupButtonNextEndScreen(_endQuizitLearnMoreBtnPath)
 
 	SetupBtnInfo()
 	SetupTutorialButtons()
@@ -308,13 +313,14 @@ function SetupOptionBtn(btnPath, isActive)
 		SetActiveOptionPanel(isActive)
     end)
 	if(isActive) then
-		numQuizit = 0
+		--numQuizit = 0
 	end
 end
 
 function SetupButtonReset(btnPath)
 	local btn = LuaGo.Find(btnPath)	
 	btn.RegisterButtonPressedCallback(function ()
+		numQuizit = 0
 		Question.LuaCall_ResetQuestionOnClick()
 		SetActiveOptionPanel(false)
 		SetActivePausePanel(false)
@@ -660,7 +666,7 @@ function SetWrongPanelData2( meanTxt)
 	mean.SetText(meanTxt)
 end
 
-local _numberQuizitPath = "head/QuizitHead/headBar/BGQuizitNumber/txtNumberQuizit"
+local _numberQuizitTotalPath = "head/QuizitHead/headBar/BGQuizitNumber/txtNumberQuizitTotal"
 local _questionHead = "head/headBg"
 local _quiztHeadPath = "head/QuizitHead"
 local _quizitFootPath = "foot/QuizitFoot"
@@ -702,6 +708,9 @@ local _scoreIconPathGroup = {
 	"foot/QuizitFoot/pointGroup/object5/icon"
 }
 
+local _headBgPath = "head/bg"
+
+
 function SetActiveQuizitUI(isActive)
 	local _quizitHead = LuaGo.Find(_quiztHeadPath)
 	_quizitHead.SetActive(isActive)
@@ -717,6 +726,18 @@ function SetActiveQuizitUI(isActive)
 	_closeBtn.SetActive(not isActive)
 	local _infoBtn = LuaGo.Find(_btnInfoPath)
 	_infoBtn.SetActive(not isActive)
+
+	local infoObj = LuaGo.Find(_infoPath)
+	infoObj.SetActive(not isActive)
+
+	local circleObj = LuaGo.Find(_circlePath)
+	circleObj.SetActive(not isActive)
+
+	local headObj = LuaGo.Find(_headBgPath)
+	headObj.SetActive(not isActive)
+
+	local numberQuizit = LuaGo.Find(_numberQuizitTotalPath)
+	numberQuizit.SetText(Question.Model.NumberQuestion)
 end
 
 function SetupPauseBtn(btnPath, isActive)
@@ -752,7 +773,7 @@ function SetTitle(title)
 	local obj2 = LuaGo.Find(_endQuizitTitlePath)
 	obj2.SetText(title)
 end
-local numQuizit = 0
+
 function SetActiveCountDown(isActive)
 	
 	
@@ -838,7 +859,7 @@ end
 function SetActiveEndQuizitPanel(active)
 	local obj = LuaGo.Find(_endQuizitPanel)
 	obj.SetActive(active);
-	numQuizit = 0
+	--numQuizit = 0
 end
 
 function SetTitleQuestion(title)

@@ -32,6 +32,7 @@ local _quitBtnPath = "PopupGroup/EndPanel/head/BackBtn"
 local _playerHpPath = "head/BattleBg/PlayerRobo/healthBar/hpTxt"
 local _botHpPath = "head/BattleBg/BotRobo/healthBar/hpTxt"
 
+
 function OnReady()
 	SetupButtonQuit(_quitBtnPath)
 
