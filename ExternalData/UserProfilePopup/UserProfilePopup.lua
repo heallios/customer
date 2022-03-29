@@ -1,4 +1,4 @@
-﻿function GetConfig ()
+function GetConfig ()
 	return {
         Bundle = "Assets/Bundles/Views/UserProfile/UserProfile.prefab",
 		Config = "",
@@ -64,6 +64,13 @@ function SetActiveFriendButton(active)
 			UserProfilePopup.LuaCall_AddFriend()
 		end)
 	end
+end
+
+function SetupCopyButton()
+	local button = LuaGo.Find(_copyButtonPath)
+	button.RegisterButtonPressedCallback(function ()
+			UserProfilePopup.LuaCall_CopyID("User ID copied to clipboard")
+		end)
 end
 
 function SetupCloseButton()
