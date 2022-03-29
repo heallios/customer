@@ -5,7 +5,7 @@ function GetConfig ()
 	return {
         Bundle = "Assets/Bundles/Views/Loading/Loading.prefab",
 		Config = "",
-		Anchor = "Root",
+		Anchor = "Load",
 		AnchorPreset = "StretchAll",
 		SizeDelta = "{x: 0, y: 0}"
     }

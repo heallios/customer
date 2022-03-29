@@ -29,6 +29,9 @@ local _endPointpath = "PopupGroup/EndPanel/head/Score"
 
 local _quitBtnPath = "PopupGroup/EndPanel/head/BackBtn"
 
+local _playerHpPath = "head/BattleBg/PlayerRobo/healthBar/hpTxt"
+local _botHpPath = "head/BattleBg/BotRobo/healthBar/hpTxt"
+
 function OnReady()
 	SetupButtonQuit(_quitBtnPath)
 
@@ -53,14 +56,20 @@ function SetActiveLoadingPanel(isActive)
 end
 
 function SetActiveEndPanel(title, point)
-	local endTitleTxt = LuaGo.Find(_endTitlePath)
-	endTitleTxt.SetText(title)
+	local co = coroutine.create(function ()
+		Wait(3)
 
-	local endPointTxt = LuaGo.Find(_endPointpath)
-	endPointTxt.SetText(point)
+		local endTitleTxt = LuaGo.Find(_endTitlePath)
+		endTitleTxt.SetText(title)
 
-	local endPanel = LuaGo.Find(_endPanelPath)
-	endPanel.SetActive(true)
+		local endPointTxt = LuaGo.Find(_endPointpath)
+		endPointTxt.SetText(point)
+
+		local endPanel = LuaGo.Find(_endPanelPath)
+		endPanel.SetActive(true)
+    end)
+	coroutine.resume(co)
+
 end
 
 function SetActiveCountDown(isActive)
@@ -92,6 +101,14 @@ end
 function SetActiveNextPanel(isActive)
 	local obj = LuaGo.Find(_nextPanel)
 	obj.SetActive(isActive)
+end
+
+function UpdateHp()
+	local playerHpTxt = LuaGo.Find(_playerHpPath)
+	playerHpTxt.SetText(QuizitPvp.Model.PlayerHp)
+
+	local botHpTxt = LuaGo.Find(_botHpPath)
+	botHpTxt.SetText(QuizitPvp.Model.BotHp)
 end
 
 function Hide()
