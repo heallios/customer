@@ -71,7 +71,7 @@ function ChooseAnswer(isCorrect, btnId, idPopup, idAb)
 	end
 
 	if idAb != "" then
-		Question.LuaCall_SetTextABWithId("Correct \nGood job \nMove next \n:)")
+		Question.LuaCall_SetTextABWithId(idAb)
 	else
 		Question.LuaCall_SetTextAB("_No data to output\n_................\n_................\n_................\n")
 	end

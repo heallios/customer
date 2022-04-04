@@ -30,7 +30,9 @@ local _closePath = "Panel/Close"
 local _subViewContainer = "SubViews"
 
 function OnReady()
-	
+	SetupCopyButton()
+	SetupBackgroundButton()
+	SetupCloseButton()
 end
 
 function SetHighScoreName()
@@ -47,7 +49,6 @@ function SetupProfile(name, level, highScores, id, activeAddFriendButton)
 	SetTextObject(_userLevelPath, level)
 	SetTextObject(_userIDPath, id)
 	SetHighScoreName()
-	SetupCloseButton()
 	SetActiveFriendButton(activeAddFriendButton)
 	SetHighScoreValue(highScores)
 end
@@ -76,6 +77,12 @@ end
 function SetupCloseButton()
 	local button = LuaGo.Find(_closePath)
 	button.RegisterButtonPressedCallback(function ()
+		UserProfilePopup.LuaCall_Out()
+	end)
+end
+
+function SetupBackgroundButton()
+	LuaGo.RegisterButtonPressedCallback(function ()
 		UserProfilePopup.LuaCall_Out()
 	end)
 end

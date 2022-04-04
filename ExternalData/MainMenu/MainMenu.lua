@@ -40,6 +40,7 @@ local _pathPopupSetting = "PopupSetting"
 local _pathBtnSetting = "MainMenu/Bg/header/settingBtn"
 local _pathCloseSetting ="PopupSetting/Bg/Header/btnClose"
 local _pathOutScreenSetting = "PopupSetting/btnCloseOutScreen"
+local _toggleGroup = "PopupSetting/Bg/Body/txtGraphic/ToggleGroup"
 local _pathTogleHigh ="PopupSetting/Bg/Body/txtGraphic/ToggleGroup/High"
 local _pathTogleMedium ="PopupSetting/Bg/Body/txtGraphic/ToggleGroup/Medium"
 local _pathTogleLow ="PopupSetting/Bg/Body/txtGraphic/ToggleGroup/Low"
@@ -73,7 +74,7 @@ function OnReady()
 	SetupToggleHigh()
 	SetupToggMedium()
 	SetupToggLow()
-
+	SetupToggleGroup()
 end
 
 function SetActivePopupSetting(isActive)
@@ -96,6 +97,10 @@ function SettupCloseButtonSetting(btnPath)
 	
 end
 
+function SetupToggleGroup()
+	local toggleGroupObj = LuaGo.Find(_toggleGroup)
+	MainMenu.LuaCall_SetupToggleGroup(toggleGroupObj)
+end
 function SetupToggleHigh()
 	local objToggle = LuaGo.Find(_pathTogleHigh)
 	local _pathTextHigh = LuaGo.Find(_pathTextHigh)
@@ -103,6 +108,7 @@ function SetupToggleHigh()
 		if(boolValue)
 			then
 				_pathTextHigh.SetTextHexColor("#00adff",_pathTextHigh)
+				MainMenu.LuaCall_SetGraphicLevel(2)
 			else
 				_pathTextHigh.SetTextHexColor("#09679e",_pathTextHigh)	
 		end
@@ -116,6 +122,7 @@ function SetupToggMedium()
 		if(boolValue)
 			then
 				_pathTextMedium.SetTextHexColor("#00adff",_pathTextMedium)
+				MainMenu.LuaCall_SetGraphicLevel(1)
 			else
 				_pathTextMedium.SetTextHexColor("#09679e",_pathTextMedium)
 		end
@@ -130,6 +137,7 @@ function SetupToggLow()
 		if(boolValue)
 			then
 				_pathTextLow.SetTextHexColor("#00adff",_pathTextLow)
+				MainMenu.LuaCall_SetGraphicLevel(0)
 			else
 				_pathTextLow.SetTextHexColor("#09679e",_pathTextLow)
 		end

@@ -9,11 +9,13 @@ function GetConfig ()
 end
 
 local _btnJoinIsLand = "Bg/body/btnJoinIsLand"
+local _camPath = "MainCam_PlanetView"
 local _btnBackLobby = "Bg/body/btnBack"
 local _handIcon = "Bg/body/Hand Icon"
 local _goHorizontalSnap = "Horizontal Scroll Snap"
 
-local _planetLocation = "Horizontal Scroll Snap/Content/planet";
+local _planetContainerPath = "Horizontal Scroll Snap/Content"
+local _planetPath = "Horizontal Scroll Snap/Content/planet";
 --local _goHorizontalSnap_planet2 = "Horizontal Scroll Snap/Content/planet2";
 --local _goHorizontalSnap_planet3 = "Horizontal Scroll Snap/Content/planet3";
 --local _goHorizontalSnap_planet4 = "Horizontal Scroll Snap/Content/planet4";
@@ -28,8 +30,12 @@ function OnReady()
 	--SetupBtnPlanet()
 	SetupButtonBackLobby(_btnBackLobby)
 	SetupHorizontalSnap(_goHorizontalSnap)
+    SetupCamera()
 end
-
+function SetupCamera()
+    local cam = LuaGo.Find(_camPath)
+    MapIsLand.LuaCall_SetupPlanetCam(cam)
+end
 function SetPlanetTxtLevel(level)
 	local txtLevel = LuaGo.Find(_planetTxtLevel)
     txtLevel.SetText(level)
@@ -72,15 +78,16 @@ end
 
 function SetupPlanetButtons(length)
     for i = 1, length do
-        local planetButtonLocation = string.format("%s%d/Button", _planetLocation, i)
+        local planetButtonLocation = string.format("%s%d/Button", _planetPath, i)
         local _planetButton = LuaGo.Find(planetButtonLocation)
         MapIsLand.LuaCall_InitializePlanetData(i)
         _planetButton.RegisterButtonPressedCallback(function ()
             MapIsLand.LuaCall_JoinIsLandSubView(i)
         end)
     end
+    --local container = LuaGo.Find(_planetContainerPath)
+    --MapIsLand.LuaCall_DisableHorizontalLayoutGroup(container)
 end
-
 function SetupButtonJoinIsland(btnPath)
 	local btn = LuaGo.Find(btnPath)
 	btn.RegisterButtonPressedCallback(function ()

@@ -37,7 +37,7 @@ end
 function SetTextDialogContent(sentenceIndex, time)
 	local textObj = LuaGo.Find(_textDialogContentPath)
 	if sentenceIndex <= #_sentences then
-		textObj.SetText("")
+		textObj.SetTextStopDoTweenAnimation()
 		textObj.SetTextDoTweenAnimation(_sentences[sentenceIndex], time)
 	else
 		MainMenu.LuaCall_SetActiveElderDialogSubView(false)

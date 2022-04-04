@@ -20,6 +20,7 @@ local _pathAddFriendTab = "Bg/body/ToggleGroup/AddFriendToggle"
 local _pathScrollFriendTab ="Bg/body/objScrollFriend"
 local _pathScrollFriendInviteTab= "Bg/body/objScrollPendingInvite"
 local _pathScrollAddFriend ="Bg/body/objScrollAddFriend"
+local _pathScrollFriend = "Bg/body/objScrollFriend/ScrollFriend"
 local _pathPannelFriend = "Bg/body/objScrollFriend/ScrollFriend/pannelFriend"
 local _pathPannelInvite = "Bg/body/objScrollPendingInvite/ScrollPendingInvite/pannelPendingInvite"
 local _pathPannelAdd = "Bg/body/objScrollAddFriend/ScrollAddFriend/pannelPendingInvite"
@@ -64,6 +65,7 @@ function OnReady()
 	SetupButtonClose(_btnClose)
 	SetupButtonConfirmDeleteRequestFriend(_btnOk)
 	GetObj()
+	SetupScroll()
 end
 function GetObj()
 	objFriend = LuaGo.Find(_pathScrollFriendTab)
@@ -152,7 +154,10 @@ function SetScrollPanel()
 	local scrollInvite = LuaGo.Find(_pathPannelInvite)
 	local scrollAdd = LuaGo.Find(_pathPannelAdd)
 	Friend.LuaCall_SetTransform(scrollFriend,scrollInvite,scrollAdd)
-	
+end
+function SetupScroll()
+	local scrollFriend = LuaGo.Find(_pathScrollFriend)
+	Friend.LuaCall_SetupScrollRect(scrollFriend)
 end
 function Refresh()
 	local objCoin = LuaGo.Find(_txtCoinPath)

@@ -2,7 +2,7 @@
 	return {
         Bundle = "Assets/Bundles/Views/IsLand/IsLand.prefab",
 		Config = "",
-		Anchor = "Root",
+		Anchor = "Back",
 		AnchorPreset = "StretchAll",
 		SizeDelta = "{x: 0, y: 0}"
     }
