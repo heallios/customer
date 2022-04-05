@@ -135,6 +135,8 @@ local _txtTexScore ="PopupGroup/EndScreenPanel/imgBg/bg_bar/fillbar/txtScore"
 local _txtImgFillScore = "PopupGroup/EndScreenPanel/imgBg/bg_bar/fillbar"
 local _txtGemFinal = "PopupGroup/EndScreenPanel/objCurrency/Gem/txtGem"
 local _txtGoldFinal = "PopupGroup/EndScreenPanel/objCurrency/Gold/txtGold"
+local _txtEndCurrency ="PopupGroup/EndScreenPanel/objCurrency"
+local _txtEndOld = "PopupGroup/EndScreenPanel/OldTxt"
 
 
 local _tutorialCloseBtnPath = "PopupGroup/TutorialContainer/QuestionPageTutorial/TutorialCloseBtn"
@@ -581,6 +583,7 @@ function SetDataTransitionScreen(title,des)
 	
 	
 end
+
 function SetDataEndScreen(keyTopic, score, fillAmount,timeDuration, numPoint, imgPathPoint,opacity,gold, gem)
 
 	local textScore = LuaGo.Find(_txtTexScore);
@@ -609,9 +612,36 @@ function SetDataEndScreen(keyTopic, score, fillAmount,timeDuration, numPoint, im
 		end
     end)
 	coroutine.resume(co)
+end
 
-	
+function SetDataEndScreenOld(keyTopic, score, fillAmount,timeDuration, numPoint, imgPathPoint,opacity)
 
+	local textScore = LuaGo.Find(_txtTexScore);
+	textScore.SetText(score)
+
+	local imgFill = LuaGo.Find(_txtImgFillScore)
+	imgFill.DoFill(fillAmount,timeDuration)
+
+	local currencyGroup = LuaGo.Find(_txtEndCurrency)
+	currencyGroup.SetActive(false)
+
+	local oldTxt = LuaGo.Find(_txtEndOld)
+	oldTxt.SetActive(true)
+
+	local obj = LuaGo.Find(_txtTopicNameEndScreenPath)
+	obj.SetText(keyTopic);
+
+	local co = coroutine.create(function ()
+		for i = 1 , numPoint do 
+			Wait(0.5)
+			local objImgPoint = LuaGo.Find(_imgPointPath[i])
+			objImgPoint.SetSprite(imgPathPoint)
+
+			local objEnergyPath = LuaGo.Find(_imgEnergyPath[i])
+			objEnergyPath.SetImageOpacity(opacity)
+		end
+    end)
+	coroutine.resume(co)
 end
 
 function LoadDragItem()

@@ -42,6 +42,8 @@ end
 
 local _correctBtnId
 
+local _indexAb = 0
+
 function SetupBtnOnclick(btnId, isCorrect, idPopup, idAb)
 		local obj = LuaGo.Find(_buttonPaths[btnId])
 		obj.RegisterButtonPressedCallback(function ()
@@ -71,7 +73,7 @@ function ChooseAnswer(isCorrect, btnId, idPopup, idAb)
 	end
 
 	if idAb != "" then
-		Question.LuaCall_SetTextABWithId(idAb)
+		Question.LuaCall_SetTextABWithId(idAb, _indexAb)
 	else
 		Question.LuaCall_SetTextAB("_No data to output\n_................\n_................\n_................\n")
 	end

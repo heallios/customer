@@ -32,15 +32,29 @@ local _correctBtnPath ="BG_Picture_Correct"
 local _wrongBtnPath ="BG_Picture_Wrong"
 local _normalBtnPath ="BG_Picture"
 
+local _indexCorrect = 0
+local _indexWrong = 1
+
 function OnReady()
 	Question.SubViewReady(LuaGo)
 end
 
-function ChooseAnswer(btnId, imageName)
-	if imageName == _correctArray[_currentCorrectIndex] then
+function ChooseAnswer(btnId, imageName, idAb)
+	Log(idAb)
+	if imageName == _correctArray[_currentCorrectIndex] then		
+		if(idAb != "") then
+			Question.LuaCall_SetTextABWithId(idAb, _indexCorrect)
+		else
+			Question.LuaCall_SetTextAB("No data to output\nAnswer [CORRECT]")
+		end
 		Question.LuaCall_AudioCorrectAnswer(true)
 		CorrectAnswerMultipleChoiceWithId(btnId)
 	else
+		if(idAb != "") then
+			Question.LuaCall_SetTextABWithId(idAb, _indexWrong)
+		else
+			Question.LuaCall_SetTextAB("No data to output\nAnswer [WRONG]")
+		end
 		Question.LuaCall_AudioCorrectAnswer(false)
 		WrongAnswerMultipleChoiceWithId(btnId)
 	end
@@ -87,7 +101,7 @@ function MoveToNextQuestion()
 	coroutine.resume(co2)
 end
 
-function SetupBtn(btnId, imageName)
+function SetupBtn(btnId, imageName, idAb)
 	_buttonImageArray[btnId] = imageName
 
 	local image = LuaGo.Find(_buttonImagePaths[btnId])
@@ -96,7 +110,7 @@ function SetupBtn(btnId, imageName)
 	local btn = LuaGo.Find(_buttonPaths[btnId])
 	btn.UnregisterButtonPressedCallback()
 	btn.RegisterButtonPressedCallback(function ()
-		ChooseAnswer(btnId, imageName)
+		ChooseAnswer(btnId, imageName, idAb)
 	end)
 end
 
@@ -114,6 +128,8 @@ function SetActiveUI(isActive, isFinishQuestion)
 
 	if isActive then
 		Question.LuaCall_SetActiveABGroup(true)
+		Question.LuaCall_LoopRandomText()
+
 		if(isFinishQuestion == false) then
 			ResetData()
 
