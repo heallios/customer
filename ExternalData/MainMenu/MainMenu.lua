@@ -57,6 +57,11 @@ local _selectColor = nil
 local _subviewContainerPath = "MainMenu/Bg/SubViews"
 local _elderDialogView = "MainMenu/SubViews/ElderDialog"
 
+local _popupSubPath = "PopupSubscription"
+local _popupSubDesPath = "PopupSubscription/Bg/desTxt"
+local _yesSubBtnPath = "PopupSubscription/Bg/GroupBtn/YesBtn"
+local _noSubBtnPath = "PopupSubscription/Bg/GroupBtn/NoBtn"
+
 function OnReady()
 
 	SetupButtonIsland(_buttonIslandPath)
@@ -75,6 +80,7 @@ function OnReady()
 	SetupToggMedium()
 	SetupToggLow()
 	SetupToggleGroup()
+	SetPopupSubBtn()
 end
 
 function SetActivePopupSetting(isActive)
@@ -263,6 +269,30 @@ end
 function CreateSubViewElderDialogue()
     local content = LuaGo.Find(_subviewContainerPath)
     CreateSubView(_elderDialogView, content.Transform)
+end
+
+function SetActivePopupSub(isActive)
+	local popup = LuaGo.Find(_popupSubPath)
+	popup.SetActive(isActive)
+end
+
+function ShowSubscriptionpopup(des)
+	local desTxt = LuaGo.Find(_popupSubDesPath)
+	desTxt.SetText(des)
+	SetActivePopupSub(true)
+end
+
+function SetPopupSubBtn()
+	local yesBtn = LuaGo.Find(_yesSubBtnPath)
+	yesBtn.RegisterButtonPressedCallback(function ()
+		SetActivePopupSub(false)
+		MainMenu.LuaCall_LoadSub()
+	end)
+
+	local noBtn = LuaGo.Find(_noSubBtnPath)
+	noBtn.RegisterButtonPressedCallback(function ()
+		SetActivePopupSub(false)
+	end)
 end
 
 function Hide()

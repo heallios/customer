@@ -1,7 +1,4 @@
-﻿
-
-
-function GetConfig ()
+﻿function GetConfig ()
 	return {
         Bundle = "Assets/Bundles/Views/Pvp/Pvp.prefab",
 		Config = "",
@@ -60,9 +57,15 @@ local _modeDes = {
 	"True False: Run to correct answer or you will fall into the void."
 }
 
+local _popupSubPath = "PopupSubscription"
+local _popupSubDesPath = "PopupSubscription/Bg/desTxt"
+local _yesSubBtnPath = "PopupSubscription/Bg/GroupBtn/YesBtn"
+local _noSubBtnPath = "PopupSubscription/Bg/GroupBtn/NoBtn"
+
 function OnReady()
 	FindUI()
 	SetUpButton()
+	SetPopupSubBtn()
 end
 
 function FindUI()
@@ -158,6 +161,30 @@ function UpdateSpriteBtnBackAndNext()
 		_btnBack.SetSprite("backAllow")
 	end
 
+end
+
+function SetActivePopupSub(isActive)
+	local popup = LuaGo.Find(_popupSubPath)
+	popup.SetActive(isActive)
+end
+
+function ShowSubscriptionpopup(des)
+	local desTxt = LuaGo.Find(_popupSubDesPath)
+	desTxt.SetText(des)
+	SetActivePopupSub(true)
+end
+
+function SetPopupSubBtn()
+	local yesBtn = LuaGo.Find(_yesSubBtnPath)
+	yesBtn.RegisterButtonPressedCallback(function ()
+		SetActivePopupSub(false)
+		Pvp.LuaCall_LoadSub()
+	end)
+
+	local noBtn = LuaGo.Find(_noSubBtnPath)
+	noBtn.RegisterButtonPressedCallback(function ()
+		SetActivePopupSub(false)
+	end)
 end
 
 function Hide()

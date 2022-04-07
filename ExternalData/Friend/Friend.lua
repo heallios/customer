@@ -52,6 +52,7 @@ local _friendButtonExtendPath = "Item/ImageAvata/btnExtend"
 local objFriend = nil;
 local objInvite =nil
 local objAdd = nil
+local btnFriend = nil;
 
 function OnReady()
 	SetupButtonBackLobby(_btnBackLobbyPath)
@@ -86,11 +87,21 @@ function SetupButtonBackLobby(btnPath)
 end
 function SetupButtonFindFriend(btnPath)
 	local btn = LuaGo.Find(btnPath)
+	btnFriend = btn;
 	btn.RegisterButtonPressedCallback(function ()
 		local objInputField = LuaGo.Find(_txtInputField)
 		local textFind = objInputField.GetText()
 		Friend.LuaCall_FindFriend(textFind)
     end)
+end
+function SetButtonFriendActive(isActive)
+	if(btnFriend == nil)
+		then
+			btnFriend = LuaGo.Find(_btnFindFriendPath)
+	end
+
+	btnFriend.SetButtonEnabled(isActive)
+	
 end
 function DisableInvitedAndAddFriendExtendButtons()
 	local inviteContainer = LuaGo.Find(_pathPannelInvite)
