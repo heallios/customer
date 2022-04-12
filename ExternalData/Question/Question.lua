@@ -21,6 +21,8 @@ local _txtABPath = "ABGroup/ABPanelUp/DataTxt"
 local _btnOpenAbPath = "ABGroup/ABPanelDown/abOpenBtn"
 local _btnCloseAbPath = "ABGroup/ABPanelUp/abCloseBtn"
 
+local _abPanel = "ABGroup/ABPanelUp/Bg"
+
 local _panelCorrectPath = "PopupGroup/CorrectPanel"
 
 local _panelCorrectWordPath = "PopupGroup/CorrectPanel/OptionPopup/wordTxt"
@@ -181,6 +183,10 @@ local _islandTxtPath = "head/infoBg/islandTxt"
 local _cellIdTxtPath = "head/infoBg/cellTxt"
 local _numberQuizitPath = "head/QuizitHead/headBar/BGQuizitNumber/txtNumberQuizit"
 local numQuizit = 0
+
+local abBlue = "AnalaticBox"
+local abGreen = "AnalaticBox_Green"
+local abRed = "AnalaticBox_Red"
 
 function OnReady()
 	FindUI()
@@ -895,6 +901,35 @@ end
 function SetTitleQuestion(title)
 	local titleObject = LuaGo.Find(_titleQuestionPath)
 	titleObject.SetText(title)
+end
+
+local coAb = nil
+local coIndex = 0
+function ChangeImgAbBox(startColor, endColor)
+	local abBox = LuaGo.Find(_abPanel)
+	abBox.SetSprite(startColor)
+	
+	coAb = coroutine.create(function ()
+			coIndex = coIndex + 1
+			local index = coIndex
+			Wait(2)
+
+			if index == coIndex then			
+				abBox.SetSprite(endColor)
+			end
+
+			coroutine.yield(coAb)	
+    end)
+
+	coroutine.resume(coAb)
+end
+
+function ChangeCorrectAb()
+	ChangeImgAbBox(abGreen, abBlue)
+end
+
+function ChangeWrongAb()
+	ChangeImgAbBox(abRed, abBlue)
 end
 
 function Hide()

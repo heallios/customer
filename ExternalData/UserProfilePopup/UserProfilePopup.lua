@@ -7,32 +7,53 @@
 		SizeDelta = "{x: 0, y: 0}"
     }
 end
-
-local _popupTitlePath = "Panel/Title"
-local _userAvatarPath = "Panel/Avatar/Image"
-local _userNamePath = "Panel/Name"
-local _userLevelPath = "Panel/Level/Text"
-local _userIDPath = "Panel/ID"
-local _copyButtonPath = "Panel/Copy"
-local _addFriendPath = "Panel/AddFriend"
+local _btnCloseOutScreen ="Profile/btnCloseOutScreen"
+local _popupTitlePath = "Profile/Panel/Title"
+local _userAvatarPath = "Profile/Panel/Avatar/Image"
+local _userNamePath = "Profile/Panel/Name"
+local _userLevelPath = "Profile/Panel/Level/Text"
+local _userIDPath = "Profile/Panel/ID"
+local _copyButtonPath = "Profile/Panel/Copy"
+local _addFriendPath = "Profile/Panel/AddFriend"
+local _btnEditAvatar ="Profile/Panel/Avatar/btnEdit"
 local _userHighScoreNamePaths = {
-	"Panel/HighScore/Score_1/Text",
-	"Panel/HighScore/Score_2/Text",
-	"Panel/HighScore/Score_3/Text"
+	"Profile/Panel/HighScore/Score_1/Text",
+	"Profile/Panel/HighScore/Score_2/Text",
+	"Profile/Panel/HighScore/Score_3/Text"
 }
 local _userHighScoreValuePaths = {
-	"Panel/HighScore/Score_1/Text/Number",
-	"Panel/HighScore/Score_2/Text/Number",
-	"Panel/HighScore/Score_3/Text/Number"
+	"Profile/Panel/HighScore/Score_1/Text/Number",
+	"Profile/Panel/HighScore/Score_2/Text/Number",
+	"Profile/Panel/HighScore/Score_3/Text/Number"
 }
-local _closePath = "Panel/Close"
+local _closePath = "Profile/Panel/Close"
 
 local _subViewContainer = "SubViews"
+local _objPopup = "PopupAvatar"
+local _objPanel = "Profile"
+
+local panelAvatar = "PopupAvatar/Popup/ScrollAvatar/pannelAvatar"
+local btnCloseOutScreenPopup = "PopupAvatar/btnCloseOutScreen"
+local imgAvatarPopup = "PopupAvatar/Popup/Avatar/Image"
+local txtNameAvatar ="PopupAvatar/Popup/txtNameAvatar"
+local btnClosePopup = "PopupAvatar/Popup/btnClose"
 
 function OnReady()
 	SetupCopyButton()
 	SetupBackgroundButton()
 	SetupCloseButton()
+	SetupButtonEditAvatar()
+	local objTransform = LuaGo.Find(panelAvatar)
+	UserProfilePopup.LuaCall_GetTransform(objTransform)
+	SetupButtonClosePopupEditAvatar(btnCloseOutScreenPopup)
+	SetupButtonClosePopupEditAvatar(btnClosePopup)
+	SetObj()
+end
+function SetObj()
+	local objPanel = LuaGo.Find(_objPanel)
+	objPanel.SetActive(true)
+	local objPopup = LuaGo.Find(_objPopup)
+	objPopup.SetActive(false)
 end
 
 function SetHighScoreName()
@@ -82,11 +103,35 @@ function SetupCloseButton()
 end
 
 function SetupBackgroundButton()
-	LuaGo.RegisterButtonPressedCallback(function ()
+	local btn = LuaGo.Find(_btnCloseOutScreen)
+	btn.RegisterButtonPressedCallback(function ()
 		UserProfilePopup.LuaCall_Out()
 	end)
 end
-
+function SetupButtonClosePopupEditAvatar(btnPath)
+	local btn = LuaGo.Find(btnPath)
+	btn.RegisterButtonPressedCallback(function ()
+		UserProfilePopup.LuaCall_ClosePopupAvatar()
+	end)
+	
+end
+function SetupButtonEditAvatar()
+	local btn = LuaGo.Find(_btnEditAvatar)
+	btn.RegisterButtonPressedCallback(function ()
+		UserProfilePopup.LuaCall_EditAvatar()
+		local objPanel = LuaGo.Find(_objPanel)
+		objPanel.SetActive(false)
+		local objPopup = LuaGo.Find(_objPopup)
+		objPopup.SetActive(true)
+	end)
+	
+end
+function ClosePanelEditAvatar()
+	local objPanel = LuaGo.Find(_objPanel)
+	objPanel.SetActive(true)
+	local objPopup = LuaGo.Find(_objPopup)
+	objPopup.SetActive(false)
+end
 function SetTextObject(path, text)
 	local textObject = LuaGo.Find(path)
 	textObject.SetText(text)
@@ -100,6 +145,14 @@ function SetTextArray(textPaths, arrayText)
 	do
 		SetTextObject(textPaths[i], arrayText[i])
 	end
+end
+function SetAvatar(strAvatar,strName)
+	local avt1 = LuaGo.Find(_userAvatarPath)
+	local avt2 = LuaGo.Find(imgAvatarPopup)
+	local txtName = LuaGo.Find(txtNameAvatar)
+	avt1.SetSprite(strAvatar)
+	avt2.SetSprite(strAvatar)
+	txtName.SetText(strName)
 end
 
 function Hide()

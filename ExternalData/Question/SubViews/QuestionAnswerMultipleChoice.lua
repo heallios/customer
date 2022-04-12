@@ -55,13 +55,15 @@ end
 
 function ChooseAnswer(isCorrect, btnId, idPopup, idAb)
 	if isCorrect then
+		Question.LuaCall_ChangeCorrectAb()
 		CorrectAnswerMultipleChoiceWithId(btnId)
 		ClearAllButtonClick()
+		
 		Question.LuaCall_FinishQuestionAction();
 		Question.LuaCall_ShowButtonNext()		
 		--Question.LuaCall_EndQuestionPanelData(isCorrect, word, mean)
 	else
-
+		Question.LuaCall_ChangeWrongAb()
 		WrongAnswerMultipleChoiceWithId(btnId)
 		--Question.LuaCall_SetActiveWrongPanel2(word, mean)
 	end

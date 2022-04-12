@@ -13,10 +13,14 @@ local _coinTxtPath = "TopBar/txt_Coin/txt_Value"
 local _gemTxtPath ="TopBar/txt_Gem/txt_Value"
 local _energyTxtPath ="TopBar/txt_Energy/txt_Value"
 
-local _regularBtnPath = "body/GroupItem/1month"
-local _normalBtnPath = "body/GroupItem/3month"
-local _premiumBtnPath = "body/GroupItem/6month"
+local _regularBtnPath = "body/GroupItem/regular"
+local _normalBtnPath = "body/GroupItem/normal"
+local _premiumBtnPath = "body/GroupItem/premium"
 local _oldBtnPath = "body/timeBg/oldBtn"
+
+local _regularTxtPath = "body/GroupItem/regular/Price"
+local _normalTxtPath = "body/GroupItem/normal/Price"
+local _premiumTxtPath = "body/GroupItem/premium/Price"
 
 local _btnLobby = nil
 local _coinTxt = nil
@@ -84,6 +88,15 @@ function UpdateCurrency()
 	_coinTxt.SetText(tostring(Subscription.Model.Gold))
 	_gemTxt.SetText(tostring(Subscription.Model.Gem))
 	_energyTxt.SetText(tostring(Subscription.Model.Energy))
+end
+
+function SetPrice(regular, normal, premium)
+	local regularTxt = LuaGo.Find(_regularTxtPath)
+	regularTxt.SetText(regular)
+	local normalTxt = LuaGo.Find(_normalTxtPath)
+	normalTxt.SetText(normal)
+	local premiumTxt = LuaGo.Find(_premiumTxtPath)
+	premiumTxt.SetText(premium)
 end
 
 function Hide()

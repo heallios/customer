@@ -43,7 +43,7 @@ local _closePopupBtn = nil
 local _okBtn = nil
 
 local _modeNames = {
-	"QUIT IT",
+	"QUIZIT",
 	"TRUE FALSE"
 }
 

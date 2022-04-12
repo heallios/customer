@@ -87,8 +87,8 @@ end
 function SetupButtonDownLoadQRCode()
 	local btn = LuaGo.Find(_pathBtnDownLoadQR)
 	btn.RegisterButtonPressedCallback(function ()
-		SetActivePopupQRCode(false)
-		SetActivePopupCongratulation(true)
+		Voucher.LuaCall_SaveImageVoucher()
+		
     end)
 end
 function SetupButtonTapToCointinue()
@@ -166,6 +166,11 @@ function SetActiveDownLoadQRCode(nameItem)
 	SetActivePopupQRCode(true)
 	local objTitleDiscount = LuaGo.Find(_pathTitleDisCount)
 		objTitleDiscount.SetText(nameItem,objTitleDiscount)
+end
+function ShowPopupCongrationUseVoucher()
+	SetActivePopupQRCode(false)
+	SetActivePopupCongratulation(true)
+	
 end
 function Hide()
 end
