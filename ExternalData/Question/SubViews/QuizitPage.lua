@@ -59,6 +59,12 @@ function SetupBtnOnclick(btnId, isCorrect)
 		end)	
 end
 
+local _pointWrong = 0.25
+
+function SetUpPoint(wrong)
+	_pointWrong = wrong
+end
+
 function ChooseAnswer(isCorrect, btnId)
 	Question.LuaCall_AudioCorrectAnswer(isCorrect)
 	if (isCorrect) then
@@ -67,7 +73,7 @@ function ChooseAnswer(isCorrect, btnId)
 		ClearAllButtonClick()
 		Question.LuaCall_SetEndQuizit()
 		Question.LuaCall_IsCorrecQuizittAnswer(_turn)
-	else
+	else		
 		Question.LuaCall_PlaySFXAnswerWrong()
 		_turn = _turn - 1
 		if(_turn == 0) then
@@ -80,10 +86,14 @@ function ChooseAnswer(isCorrect, btnId)
 			WrongAnswerMultipleChoice(btnId)
 			ClearButtonClick(btnId)
 		end
+
+		Question.LuaCall_UpdateWrongQuestion(_pointWrong)
 	end
 
 	Question.LuaCall_ColorCurrentScore(_turn)
 end
+
+
 
 function ShowWhenTimeOut()
 	

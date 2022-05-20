@@ -35,13 +35,20 @@ local _normalBtnPath ="BG_Picture"
 local _indexCorrect = 0
 local _indexWrong = 1
 
+local isFinish = false
+
 function OnReady()
 	Question.SubViewReady(LuaGo)
 end
 
+local _pointWrong = 0.25
+
+function SetUpPoint(wrong)
+	_pointWrong = wrong
+end
+
 function ChooseAnswer(btnId, imageName, idAb)
-	Log(idAb)
-	if imageName == _correctArray[_currentCorrectIndex] then		
+	if imageName == _correctArray[_currentCorrectIndex] then	
 		if(idAb != "") then
 			Question.LuaCall_SetTextABWithId(idAb, _indexCorrect)
 		else
@@ -50,6 +57,7 @@ function ChooseAnswer(btnId, imageName, idAb)
 		Question.LuaCall_AudioCorrectAnswer(true)
 		CorrectAnswerMultipleChoiceWithId(btnId)
 	else
+		Question.LuaCall_UpdateWrongQuestion( _pointWrong)
 		if(idAb != "") then
 			Question.LuaCall_SetTextABWithId(idAb, _indexWrong)
 		else
@@ -122,7 +130,8 @@ function SetUpCorrectAnswer(id, value)
 	_correctArray[id] = value
 end
 
-function SetActiveUI(isActive, isFinishQuestion)
+
+function SetActiveUI(isActive)
 	local obj = LuaGo.Find(_desGroupPath)
 	obj.SetActive(isActive)
 
@@ -130,9 +139,9 @@ function SetActiveUI(isActive, isFinishQuestion)
 		Question.LuaCall_SetActiveABGroup(true)
 		Question.LuaCall_LoopRandomText()
 
-		if(isFinishQuestion == false) then
-			ResetData()
-
+		if(isFinish == false) then
+			ResetButtons()
+			
 			local co = coroutine.create(function ()
 				SetTextQuestion(_textArray[_currentCorrectIndex])
 				Wait(1)
@@ -149,13 +158,14 @@ function SetActiveUI(isActive, isFinishQuestion)
 				end
     		end)
 			coroutine.resume(co)
+			isFinish = true
 		end
 	end
 end
 
 function ResetData()
 	_currentCorrectIndex = 1
-	Log(_currentCorrectIndex)
+	isFinish = false
 	ResetButtons()
 end
 

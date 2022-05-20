@@ -8,7 +8,6 @@
     }
 end
 
-local _IsLandItem = "IsLand/SubViews/IsLandSubViews"
 local _GroupCellItem = "Island/SubViews/GroupCell"
 local _btnJoinIsLand = "Bg/body/btnJoinIsLand"
 local _btnBack = "back"
@@ -40,13 +39,6 @@ function SetupButtonBack(btnPath)
 	btn.RegisterButtonPressedCallback(function ()
 		IsLand.LuaCall_BackToMap()
     end)
-end
-
-function CreateSubViewCell(sum)
-	_scrollContent = LuaGo.Find("Bg/body/Scroll/Content")
-	for i = 1, sum do
-		CreateSubView(_IsLandItem, _scrollContent.Transform)
-    end
 end
 
 function CreateSubViewGroupCell()

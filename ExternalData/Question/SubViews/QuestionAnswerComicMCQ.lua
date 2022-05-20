@@ -57,6 +57,7 @@ function SetupBtnOnclick(btnId, isCorrect, idPopup)
 		obj.RegisterButtonPressedCallback(function ()
 			--Question.LuaCall_PlayFXOnclickMCQAnswer(btnId)
 			ChooseAnswer(isCorrect, btnId, idPopup)
+			ClearButtonClick(obj)
 		end)	
 end
 
@@ -74,14 +75,25 @@ function SetupColor(wrongTextColor, correctTextColor, wrongButtonColor)
 	_wrongButtonColor = wrongButtonColor
 end
 
+local _maximumPoint = 1
+local _pointWrong = 0.25
+local _currentPoint = 0
+
+function SetUpPoint(max, wrong)
+	_maximumPoint = max
+	_pointWrong = wrong
+	_currentPoint = 0
+end
+
 function ChooseAnswer(isCorrect, btnId, idPopup)
 	if isCorrect then
+		Question.LuaCall_UpdateWrongQuestion(_currentPoint/_maximumPoint)
 		CorrectAnswerMultipleChoiceWithId(btnId)
 		ClearAllButtonClick()
 
 		Question.LuaCall_ShowButtonNext()
 	else
-
+		_currentPoint = _currentPoint + _pointWrong
 		WrongAnswerMultipleChoiceWithId(btnId)
 	end
 
@@ -92,9 +104,13 @@ function ChooseAnswer(isCorrect, btnId, idPopup)
 	end
 end
 
-local _correctBtnPath ="mqc_green_correct"
-local _wrongBtnPath ="mqc_red_wrong"
-local _normalBtnPath ="mqc_answer_dark blue"
+function ClearButtonClick(btn)
+	btn.UnregisterButtonPressedCallback()
+end
+
+local _correctBtnPath ="btn_green_comic_MCQ"
+local _wrongBtnPath ="btn_red_comic_MCQ"
+local _normalBtnPath ="btn_blue_comic_MCQ"
 
 function CorrectAnswerMultipleChoice()
 		local obj = LuaGo.Find(_buttonPaths[_correctBtnId])

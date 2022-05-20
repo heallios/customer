@@ -40,7 +40,6 @@ function SetActiveUI(isActive)
 		desImgBg.DoFadeImage(1.0, 0.75, desImgBg)
 		local objText = LuaGo.Find(_desTxtPath)
 		objText.SetTextDoTweenAnimation(_text,3.0,objText)
-
 	end
 end
 

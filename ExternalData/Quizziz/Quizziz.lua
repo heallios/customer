@@ -50,6 +50,9 @@ local _popupInfoPath = "PopupGroup/OptionPanel"
 local _yesBtnInfoBtnPath = "PopupGroup/OptionPanel/OptionPopup/yesBtn"
 local _noBtnInfoPath = "PopupGroup/OptionPanel/OptionPopup/noBtn"
 
+local _gemTxtPath = "PopupGroup/EndPanel/WinGroup/gem/gemTxt"
+local _goldtxtPath = "PopupGroup/EndPanel/WinGroup/gold/goldTxt"
+
 function OnReady()
 	SetupButtonQuit(_yesBtnInfoBtnPath)
 	SetupButtonQuit(_quitBtnPath)
@@ -181,6 +184,14 @@ function SetUpButtonActivePopupInfo(btnPath, isActive)
 	btn.RegisterButtonPressedCallback(function ()
 		SetActivePopupInfo(isActive)
     end)
+end
+
+function SetRewardData(gem, gold)
+	local gemTxt = LuaGo.Find(_gemTxtPath)
+	gemTxt.SetText("+".. gem)
+
+	local goldTxt = LuaGo.Find(_goldtxtPath)
+	goldTxt.SetText("+".. gold)
 end
 
 function Hide()

@@ -21,9 +21,10 @@ local _btnBackPath = "body/btnBack"
 local _btnPlayPath = "Foot/btnPlay"
 local _btnRankPath ="Foot/btnRank"
 
-local _popupNetPath = "PopupNet"
-local _closePopupBtnPath = "PopupNet/Panel/closeBtn"
-local _okBtnPath = "PopupNet/Panel/btnOK"
+local _popupArlertPath = "PopupArlert"
+local _popupArlertTxtPath = "PopupArlert/Panel/mes"
+local _closePopupBtnPath = "PopupArlert/Panel/closeBtn"
+local _okBtnPath = "PopupArlert/Panel/btnOK"
 
 local _btnLobby = nil
 local _coinTxt = nil
@@ -38,7 +39,8 @@ local _btnBack = nil
 local _btnPlay = nil
 local _btnRank = nil
 
-local _popupNet = nil
+local _popupArlert = nil
+local _popupArlertTxt = nil
 local _closePopupBtn = nil
 local _okBtn = nil
 
@@ -82,7 +84,8 @@ function FindUI()
 	_btnPlay = LuaGo.Find(_btnPlayPath)
 	_btnRank = LuaGo.Find(_btnRankPath)
 
-	_popupNet = LuaGo.Find(_popupNetPath)
+	_popupArlert = LuaGo.Find(_popupArlertPath)
+	_popupArlertTxt = LuaGo.Find(_popupArlertTxtPath)
 	_closePopupBtn = LuaGo.Find(_closePopupBtnPath)
 	_okBtn = LuaGo.Find(_okBtnPath)
 end
@@ -115,12 +118,12 @@ function SetUpButton()
 
 	_closePopupBtn.UnregisterButtonPressedCallback()
 	_closePopupBtn.RegisterButtonPressedCallback(function ()
-		_popupNet.SetActive(false)
+		_popupArlert.SetActive(false)
     end)
 
 	_okBtn.UnregisterButtonPressedCallback()
 	_okBtn.RegisterButtonPressedCallback(function ()
-		_popupNet.SetActive(false)
+		_popupArlert.SetActive(false)
     end)
 end
 
@@ -144,8 +147,9 @@ function UpdateView()
 	_desMode.SetText(_modeDes[Pvp.Model.Index + 1])
 end
 
-function ShowPopupNoInternet()
-	_popupNet.SetActive(true)
+function ShowPopupArlert(mes)
+	_popupArlertTxt.SetText(mes)
+	_popupArlert.SetActive(true)
 end
 
 function UpdateSpriteBtnBackAndNext()

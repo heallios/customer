@@ -245,7 +245,9 @@ function SetClaimMailButton()
 	_mailClaimBtn.UnregisterButtonPressedCallback()
 	_mailClaimBtn.RegisterButtonPressedCallback(function ()
 		Mail.LuaCall_ClaimGift(Mail.Model.Id)
-		_mailClaimBtn.SetActive(false)
+		_mailPopup.SetActive(false)
+		_confirmDeletePopup.SetActive(false)
+		IsMailOpen = false
     end)
 end
 
@@ -332,10 +334,12 @@ function HideGiftItems()
 end
 
 function ShowClaimButton()
+	_mailDeleteBtn.SetActive(false)
 	_mailClaimBtn.SetActive(true)
 end
 
 function HideClaimButton()
+	_mailDeleteBtn.SetActive(true)
 	_mailClaimBtn.SetActive(false)
 end
 

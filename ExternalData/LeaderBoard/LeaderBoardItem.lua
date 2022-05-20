@@ -18,7 +18,13 @@ local _pathImageItem = "Item"
 
 function OnReady()
 
-
+	SetupButtonShowAvatar()
+end
+function SetupButtonShowAvatar()
+	local btn = LuaGo.Find(_pathImageItem)
+	btn.RegisterButtonPressedCallback(function ()
+		LeaderBoardItem.LuaCall_ShowAvatar()
+	end)
 end
 
 function Refresh()
@@ -35,10 +41,10 @@ function Refresh()
 	txtName.SetText(LeaderBoardItem.Model.ItemEntity.Name)
 
 	local imgAvt = LuaGo.Find(_pathAvatar)
-	imgAvt.SetSprite(LeaderBoardItem.Model.ItemEntity.Icon)
+	imgAvt.SetSpriteForImage(LeaderBoardItem.Model.ItemEntity.SpriteAvatar)
 
 	local txtScore = LuaGo.Find(_pathScore)
-	txtScore.SetText(LeaderBoardItem.Model.ItemEntity.Score)
+	txtScore.SetText(LeaderBoardItem.Model.ItemEntity.Ranking_point)
 
 end
 function Hide()

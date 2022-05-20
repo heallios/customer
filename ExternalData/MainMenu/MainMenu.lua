@@ -63,6 +63,8 @@ local _popupSubDesPath = "PopupSubscription/Bg/desTxt"
 local _yesSubBtnPath = "PopupSubscription/Bg/GroupBtn/YesBtn"
 local _noSubBtnPath = "PopupSubscription/Bg/GroupBtn/NoBtn"
 
+local _playerRobotContainerPath = "GroupPlayer/playerObject/playerGroup/PlayerBodyCombiner"
+
 function OnReady()
 
 	SetupButtonIsland(_buttonIslandPath)
@@ -83,6 +85,7 @@ function OnReady()
 	SetupToggleGroup()
 	SetPopupSubBtn()
 	SetupBtnSubscription(_subscriptionBtn)
+	SetupLoadRobot()
 end
 
 function SetActivePopupSetting(isActive)
@@ -104,11 +107,16 @@ function SettupCloseButtonSetting(btnPath)
 	end)
 	
 end
+function SetupLoadRobot()
+	local robotContainer = LuaGo.Find(_playerRobotContainerPath)
+	MainMenu.LuaCall_LoadRobot(robotContainer)
+end
 
 function SetupToggleGroup()
 	local toggleGroupObj = LuaGo.Find(_toggleGroup)
 	MainMenu.LuaCall_SetupToggleGroup(toggleGroupObj)
 end
+
 function SetupToggleHigh()
 	local objToggle = LuaGo.Find(_pathTogleHigh)
 	local _pathTextHigh = LuaGo.Find(_pathTextHigh)
@@ -297,9 +305,9 @@ function SetPopupSubBtn()
 	end)
 end
 
-function SetAvatar(strAvatar)
+function SetAvatar(spriteAvatar)
 	local objAvatar = LuaGo.Find(_pathAvatarbtn)
-	objAvatar.SetSprite(strAvatar)
+	objAvatar.SetSpriteForImage(spriteAvatar)
 end
 
 function SetupBtnSubscription(btnPath)
@@ -308,5 +316,29 @@ function SetupBtnSubscription(btnPath)
 		MainMenu.LuaCall_LoadSub()
 	end)
 end
+
+local _botRoboPath = "GroupBot/botObject/botGroup/Blast_Robot_Red"
+
+local _groupPlayerRobopath = "GroupPlayer"
+local _groupBotRoboPath = "GroupBot"
+
+function SetActiveCamAndBody(isPlayer, isBot)
+	local groupPlayer = LuaGo.Find(_groupPlayerRobopath)
+	groupPlayer.SetActive(isPlayer)
+
+	local groupBot = LuaGo.Find(_groupBotRoboPath)
+	groupBot.SetActive(isBot)
+end
+
+function PlayPlayerRoboAnim(animName)
+	local playerRobo = LuaGo.Find(_playerRobotContainerPath).GetChildActive()
+	playerRobo.PlayAnim(animName)
+end
+
+function PlayBotRoboAnim(animName)
+	local botRobo = LuaGo.Find(_botRoboPath)
+	botRobo.PlayAnim(animName)
+end
+
 function Hide()
 end

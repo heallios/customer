@@ -14,8 +14,7 @@ local _voucherItem = "Shop/SubViews/ShopItemSubViews"
 local _txtCoinPath = "Bg/header/objCoin/txtCoin"
 local _txtGemPath = "Bg/header/objGem/txtGem"
 local _txtObjEnergyPath = "Bg/header/objEnergy/txtEnergy"
-local _popupSubview = "Shop/SubViews/ShopItemPopupSubView"
-
+local _txtTextRenew = "Bg/body/objTop/objTime/txtTitleCountDown/imgTimeCoutDown/txtTimeCountDown"
 local _pathCanvasPopup = "Bg/ShopItemPopupSubView"
 local _pathPopupBuy = "Bg/ShopItemPopupSubView/PopupBuy"
 local _pathPopupCongarution = "Bg/ShopItemPopupSubView/PopupCongratulation"
@@ -33,6 +32,8 @@ local _pathBtnTapToContinue = "Bg/ShopItemPopupSubView/PopupCongratulation/Congr
 
 
 function OnReady()
+	local objTextRenew = LuaGo.Find(_txtTextRenew)
+	Shop.LuaCall_GetObjRenew(objTextRenew)
 	SetupButtonBackLobby(_btnBackLobby)
 	SetupBtnClosePopupConfirmBuyVoucher(_pathBtnClosePopup)
 	SetupBtnClosePopupConfirmBuyVoucher(_pathBtnCloseOutScreen)
@@ -42,6 +43,7 @@ function OnReady()
 	ActiveShopItemPopupSubView(false)
 	local objPannel = LuaGo.Find("Bg/body/Scroll/pannel")
 	Shop.LuaCall_GetTransform(objPannel)
+	
 
 end
 function ActiveShopItemPopupSubView(isActive)
@@ -95,7 +97,7 @@ function ActivePopupCongratulation(isActive)
 	local objCongration = LuaGo.Find(_pathPopupCongarution)
 		objCongration.SetActive(isActive)
 end
-function SetDataPopupConfirmBuyVoucher(Img, nameItem, des, gold, gem,isCanBuy)
+function SetDataPopupConfirmBuyVoucher(sprite, nameItem, des, gold, gem,isCanBuy)
 
 	local objButtonBuy = LuaGo.Find(_pathBtnBuy)
 		objButtonBuy.SetButtonEnabled(isCanBuy)
@@ -105,11 +107,10 @@ function SetDataPopupConfirmBuyVoucher(Img, nameItem, des, gold, gem,isCanBuy)
 				objTextBuy.SetTextOpacity(1)
 			else
 				objTextBuy.SetTextOpacity(0.5)
-				
 		end
 
 	local objImgItem = LuaGo.Find(_pathImg)
-		objImgItem.SetSprite(Img)
+		objImgItem.SetSpriteForImage(sprite)
 
 	local objName = LuaGo.Find(_pathName)
 		objName.SetText(nameItem,objName)

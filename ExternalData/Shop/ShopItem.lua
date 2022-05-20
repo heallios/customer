@@ -43,17 +43,16 @@ function Refresh()
 		objItem.SetSprite(ShopItem.Model.ImagePathVoucher)
 		
 	local objImgItem = LuaGo.Find(pathImg)
-		objImgItem.SetSprite(ShopItem.Model.ItemEntity.ImagePath)
-	
+		objImgItem.SetSpriteForImage(ShopItem.Model.ItemEntity.spriteItem)
 	
 	local objGold = LuaGo.Find(pathGold)
-		objGold.SetText(ShopItem.Model.ItemEntity.Gold,objGold)
+		objGold.SetText(ShopItem.Model.ItemEntity.gold_price,objGold)
 
 	local objGem = LuaGo.Find(pathGem)
-		objGem.SetText(ShopItem.Model.ItemEntity.Gem,objGem)
+		objGem.SetText(ShopItem.Model.ItemEntity.gem_price,objGem)
 
 	local objQuantity = LuaGo.Find(pathTxtAmountLeft)
-		objQuantity.SetText(ShopItem.Model.ItemEntity.Total,objQuantity)
+		objQuantity.SetText(ShopItem.Model.ItemEntity.quantity,objQuantity)
 end
 function SetDataInView(isActive,fillImage,iconLock,total,isActiveEffectFill)
 	local objFill = LuaGo.Find(pathFillImage)

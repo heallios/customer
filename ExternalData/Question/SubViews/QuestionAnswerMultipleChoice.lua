@@ -40,6 +40,10 @@ function ClearAllButtonClick()
 	end
 end
 
+function ClearButtonClick(btn)
+	btn.UnregisterButtonPressedCallback()
+end
+
 local _correctBtnId
 
 local _indexAb = 0
@@ -48,24 +52,34 @@ function SetupBtnOnclick(btnId, isCorrect, idPopup, idAb)
 		local obj = LuaGo.Find(_buttonPaths[btnId])
 		obj.RegisterButtonPressedCallback(function ()
 			ChooseAnswer(isCorrect, btnId, idPopup, idAb)
+			ClearButtonClick(obj)
 		end)	
 end
 
+local _maximumPoint = 1
+local _pointWrong = 0.25
+local _currentPoint = 0
+local isFinished = false
 
+function SetUpPoint(max, wrong)
+	_maximumPoint = max
+	_pointWrong = wrong
+	_currentPoint = 0
+end
 
 function ChooseAnswer(isCorrect, btnId, idPopup, idAb)
 	if isCorrect then
+		Question.LuaCall_UpdateWrongQuestion(_currentPoint/_maximumPoint)
 		Question.LuaCall_ChangeCorrectAb()
 		CorrectAnswerMultipleChoiceWithId(btnId)
 		ClearAllButtonClick()
 		
 		Question.LuaCall_FinishQuestionAction();
 		Question.LuaCall_ShowButtonNext()		
-		--Question.LuaCall_EndQuestionPanelData(isCorrect, word, mean)
 	else
+		_currentPoint = _currentPoint + _pointWrong
 		Question.LuaCall_ChangeWrongAb()
 		WrongAnswerMultipleChoiceWithId(btnId)
-		--Question.LuaCall_SetActiveWrongPanel2(word, mean)
 	end
 
 	Question.LuaCall_AudioCorrectAnswer(isCorrect)
@@ -106,6 +120,7 @@ function WrongAnswerMultipleChoice()
 end
 
 function ResetButtonsColor()
+	isFinished = false
 	for i = 1, #_buttonPaths do
 		local obj = LuaGo.Find(_buttonPaths[i])
 		obj.SetSprite(_normalBtnPath)
@@ -121,27 +136,33 @@ function SetupTextForMultipleChoiceButton(btnId, value)
 	obj.SetText(value)
 end
 
+
+
 function SetActiveUI(isActive)
 	local obj = LuaGo.Find(_desGroupPath)
 	obj.SetActive(isActive)
 
 	if isActive then
+		_isWrong = false;
 		Question.LuaCall_SetActiveABGroup(true)
 		Question.LuaCall_LoopRandomText()
-		local co = coroutine.create(function ()
-			Wait(3)
-			for i = 1 , #_buttonPaths do 
-				Wait(0.25)
+		if isFinished == false then
+			local co = coroutine.create(function ()
+				Wait(3)
+				for i = 1 , #_buttonPaths do 
+					Wait(0.25)
 
-				local objImage = LuaGo.Find(_buttonPaths[i])
-				objImage.DoFadeImage(1.0, 0.75, objImage)
-				objImage.SetButtonEnabled(true)
-				local objText = LuaGo.Find(_buttonTextPaths[i])
-				objText.DoFadeText(1.0, 0.75, objText)
+					local objImage = LuaGo.Find(_buttonPaths[i])
+					objImage.DoFadeImage(1.0, 0.75, objImage)
+					objImage.SetButtonEnabled(true)
+					local objText = LuaGo.Find(_buttonTextPaths[i])
+					objText.DoFadeText(1.0, 0.75, objText)
 				
-			end
-    	end)
-		coroutine.resume(co)
+				end
+    		end)
+			coroutine.resume(co)
+			isFinished = true
+		end
 	end
 end
 

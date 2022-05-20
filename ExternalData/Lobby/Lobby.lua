@@ -22,12 +22,17 @@ local _buttonEventVideoPath = "Bg/body/groupBtnRight/videoBtn"
 local _noticeMailPath = "Bg/body/groupBtnRight/mailBtn/iconRed"
 local _buttonSubscription = "Bg/body/groupBtnRight/subscriptionBtn"
 
+local _btnCloseMenuPath = "Bg/body/groupBtnRight/longBg/btnClose"
+local _btnOpenMenuPath = "Bg/body/groupBtnRight/longBg/btnOpen"
+local _groupBtnPath = "Bg/body/groupBtnRight"
+
 function OnReady()
 	SetupButtonSkin(_buttonSkinPath)
 	SetupButtonEventVideo(_buttonEventVideoPath)
 	SetupButtonMail(_buttonMailPath)
 
 	SetupButtonSubscription(_buttonSubscription)
+	SetUpButtonOpenAndCloseMenu()
 end
 
 function SetupButton(animName, btnPath, index)
@@ -76,6 +81,18 @@ end
 function NoticeMail(isActive)
 	local icon = LuaGo.Find(_noticeMailPath)
 	icon.SetActive(isActive)
+end
+
+function SetUpButtonOpenAndCloseMenu()
+	local groupBtn = LuaGo.Find(_groupBtnPath)
+	local btnClose = LuaGo.Find(_btnCloseMenuPath)
+	btnClose.RegisterButtonPressedCallback(function ()
+		groupBtn.AnimationPlay("Close")
+	end)
+	local btnOpen = LuaGo.Find(_btnOpenMenuPath)
+	btnOpen.RegisterButtonPressedCallback(function ()
+		groupBtn.AnimationPlay("Open")
+	end)
 end
 
 function Hide()

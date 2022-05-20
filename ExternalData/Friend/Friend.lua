@@ -37,7 +37,7 @@ local _txtDesPopup = "Bg/Popup/BgPopup/des_popup"
 local _objPopup = "Bg/Popup"
 local _btnCloseOutscreen = "Bg/Popup/btnCloseOutScreen"
 local _btnClose = "Bg/Popup/BgPopup/btnClose"
-local _btnCancle = "Bg/Popup/BgPopup/ObjButton/BtnCancle"
+local _btnCancel = "Bg/Popup/BgPopup/ObjButton/BtnCancel"
 local _btnOk = "Bg/Popup/BgPopup/ObjButton/BtnOk"
 
 local _imgEnmpty = "Bg/body/objScrollAddFriend/ScrollAddFriend/imgEnmpty"
@@ -47,14 +47,17 @@ local _btnBackLobbyPath = "Bg/header/imgButton/btnBack"
 local _subviewContainer = "Bg/body/SubViews"
 local _popupConfirmPath = "Friend/SubViews/AddFriendConfirm"
 
-local _friendButtonExtendPath = "Item/ImageAvata/btnExtend"
+local _btnTest = "Bg/body/objScrollFriend/ScrollFriend/Test"
 
 local objFriend = nil;
 local objInvite =nil
 local objAdd = nil
 local btnFriend = nil;
+local totalFriend = 50
+local totalInviteFriend = 50
 
 function OnReady()
+	SelectInputField(_txtInputField)
 	SetupButtonBackLobby(_btnBackLobbyPath)
 	SetupToggFriendTab()
 	SetupToggInviteFriendTab()
@@ -62,11 +65,15 @@ function OnReady()
 	SetupButtonFindFriend(_btnFindFriendPath)
 	SetScrollPanel()
 	SetupButtonClose(_btnCloseOutscreen)
-	SetupButtonClose(_btnCancle)
+	SetupButtonClose(_btnCancel)
 	SetupButtonClose(_btnClose)
 	SetupButtonConfirmDeleteRequestFriend(_btnOk)
 	GetObj()
 	SetupScroll()
+	SetTotolFriend()
+end
+function SetTotolFriend()
+	Friend.LuaCall_SetTotalFriend(totalFriend,totalInviteFriend)
 end
 function GetObj()
 	objFriend = LuaGo.Find(_pathScrollFriendTab)
@@ -103,17 +110,8 @@ function SetButtonFriendActive(isActive)
 	btnFriend.SetButtonEnabled(isActive)
 	
 end
-function DisableInvitedAndAddFriendExtendButtons()
-	local inviteContainer = LuaGo.Find(_pathPannelInvite)
-	local addContainer = LuaGo.Find(_pathPannelAdd)
-	Friend.LuaCall_GetInvitedFriends(inviteContainer)
-	Friend.LuaCall_GetInvitedFriends(addContainer)
-end
-function DisableFriendExtendButton(invitedFriend)
-	local extendButton = invitedFriend.Find(_friendButtonExtendPath)
-	extendButton.UnregisterButtonPressedCallback()
-	extendButton.SetActive(false)
-end
+
+
 function SetupToggFriendTab()
 	local objToggle = LuaGo.Find(_pathFriendTab)
 	local _pathScrollFriend = LuaGo.Find(_pathScrollFriendTab)
@@ -139,6 +137,7 @@ function SetupToggInviteFriendTab()
 		if(boolValue)
 			then
 				objText.SetTextHexColor("#FFFFFF")
+				Friend.LuaCall_ToggleFriendInvitedActive()
 			else
 				objText.SetTextHexColor("#515d75")
 		end
@@ -154,6 +153,7 @@ function SetupToggAddFriendTab()
 		if(boolValue)
 			then
 				objText.SetTextHexColor("#FFFFFF")
+				Friend.LuaCall_ToggleAddFriendActive()
 			else
 				objText.SetTextHexColor("#515d75")
 		end
@@ -193,8 +193,8 @@ function ShowPopupFriendFull(des)
 	local objDes = LuaGo.Find(_txtDesPopup)
 	objDes.SetText(des)
 
-	local btnCancle = LuaGo.Find(_btnCancle)
-	btnCancle.SetActive(false)
+	local btnCancel = LuaGo.Find(_btnCancel)
+	btnCancel.SetActive(false)
 
 	
 end
@@ -205,8 +205,8 @@ function ShowPopupDeleteFriend(des)
 	local objDes = LuaGo.Find(_txtDesPopup)
 	objDes.SetText(des)
 
-	local btnCancle = LuaGo.Find(_btnCancle)
-	btnCancle.SetActive(true)
+	local btnCancel = LuaGo.Find(_btnCancel)
+	btnCancel.SetActive(true)
 
 end
 function SetupButtonClose(btnPath)
@@ -233,6 +233,20 @@ end
 function CreateConfirmPopup()
 	local content = LuaGo.Find(_subviewContainer)
 	CreateSubView(_popupConfirmPath, content.Transform)
+end
+function SelectInputField(inputField)
+	local obj = LuaGo.Find(inputField)
+	obj.RegisterEventTriggerPointerClickCallback(function ()
+		SetInputFieldImage("button_choose_name_or_ID", inputField)
+    end)
+
+	obj.RegisterInputFieldEndEditCallback(function ()
+		SetInputFieldImage("button_name_or_ID", inputField)
+    end)
+end
+function SetInputFieldImage(image, inputField)
+	local obj = LuaGo.Find(inputField)
+	obj.SetSprite(image,obj)
 end
 
 function Hide()

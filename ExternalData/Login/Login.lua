@@ -12,6 +12,7 @@ end
 
 local _buttonsLoginGuestPath = "Login/Bot/btnLoginGuest"
 local _btnCreateNow = "Login/Body/ObjLogin/btnCreateNow"
+local _btnForgotPass ="Login/Body/ObjLogin/btnForgotPassWord"
 
 local _inputFieldNamePath = "Login/Body/ObjLogin/inputFileldUserName"
 local _inputFieldPassPath = "Login/Body/ObjLogin/inputFileldPassWord"
@@ -45,6 +46,40 @@ local _btnOkPopup = "Popup/BgPopup/BtnOk"
 local _titlePopup = "Popup/BgPopup/title"
 local _txtDesPopup = "Popup/BgPopup/des_Login"
 
+local _btnSendForgot ="ForgotPass/Body/ObjLogin/objSendMail/btnSendMail"
+local _inputFieldEmailForgot="ForgotPass/Body/ObjLogin/objSendMail/inputFiledEmailForgot"
+local _objPopupForgotPass ="ForgotPass"
+local _txtTitleForgot = "ForgotPass/Body/ObjLogin/objSendOtp/txtTitle"
+local _txtTileNote="ForgotPass/Body/ObjLogin/objSendOtp/txtTitle/txtTitle2"
+local _btnResentMail= "ForgotPass/Body/ObjLogin/objSendOtp/btnResendCode"
+local _objSendMail = "ForgotPass/Body/ObjLogin/objSendMail"
+local _objSendOTP = "ForgotPass/Body/ObjLogin/objSendOtp"
+local _btnCheckOtp="ForgotPass/Body/ObjLogin/objSendOtp/btnCheckOtp"
+local _objNewPass= "ForgotPass/Body/ObjLogin/objNewPass"
+local _inputCode = "ForgotPass/Body/ObjLogin/objSendOtp/inputFiledCode"
+local _inputFieldNewPass ="ForgotPass/Body/ObjLogin/objNewPass/inputFileldPassWord"
+local _inputFieldConfirmNewPass="ForgotPass/Body/ObjLogin/objNewPass/inputFileldRePassWord"
+local _btnChangePass = "ForgotPass/Body/ObjLogin/objNewPass/btnChangePass"
+local _btnBackForgot = "ForgotPass/btnBackForgot"
+local _btnBackPopupForgot= "ForgotPass/btnBackPopupForgot"
+
+local _inputCode1 = "ForgotPass/Body/ObjLogin/objSendOtp/grid/inputFiledCode1"
+local _inputCode2 = "ForgotPass/Body/ObjLogin/objSendOtp/grid/inputFiledCode2"
+local _inputCode3 = "ForgotPass/Body/ObjLogin/objSendOtp/grid/inputFiledCode3"
+local _inputCode4 = "ForgotPass/Body/ObjLogin/objSendOtp/grid/inputFiledCode4"
+local _inputCode5 = "ForgotPass/Body/ObjLogin/objSendOtp/grid/inputFiledCode5"
+local _inputCode6 = "ForgotPass/Body/ObjLogin/objSendOtp/grid/inputFiledCode6"
+local _inputCode7 = "ForgotPass/Body/ObjLogin/objSendOtp/grid/inputFiledCode7"
+
+local arrInput = {
+	_inputCode1,
+	_inputCode2,
+	_inputCode3,
+	_inputCode4,
+	_inputCode5,
+	_inputCode6,
+	_inputCode7
+}
 
 
 local _isShowPass = false
@@ -58,6 +93,13 @@ function OnReady()
 	SelectInputField(_inputFieldPassPath)
 	SelectInputField(_inputFieldPasswordRegister)
 	SelectInputField(_inputFieldRePasswordRegister)
+	SelectInputField(_inputFieldEmailForgot)
+	SelectInputField(_inputFieldNewPass)
+	SelectInputField(_inputFieldConfirmNewPass)
+	SelectInputField(_inputCode)
+
+	SelectInputField(_inputFieldUserNameRegister)
+	SelectInputField(_inputFieldEmailRegister)
 	SetButtonShowPass(_buttonShowPassPath,_inputFieldPassPath)
 	SetButtonShowPass(_buttonShowPassRegister,_inputFieldPasswordRegister)
 	SetButtonShowPass(_buttonShowRePassRegister,_inputFieldRePasswordRegister)
@@ -65,7 +107,7 @@ function OnReady()
 	SetActiveInfoObject(_isActiveInfo)
 	SetButtonInfo(_versionBtnLogin)
 	--SetButtonInfo(_versionBtnCreate)
-	SetActiveObjCreate(false)
+	SetUnActivePopup()
 	SetActivePopup(false,"","")
 	SetupButtonCreateNow(_btnCreateNow)
 	SetupButtonRegister(_btnRegister)
@@ -74,7 +116,24 @@ function OnReady()
 	SetupButtonClosePopup(_btnOkPopup)
 	SetupButtonLogin(_inputBtnLogin)
 	SetupButtonBackRegister(_buttonBack)
+	SetupButtonResendMail()
+	SetupButtonForgotPass()
+	SetupButtonSendEmail()
+	SetupButtonCheckOtp()
+	SetupButtonChangePass()
+	SetupButtonBackForgot()
+	SetupButtonBackPopupScrenForgot()
+	GetInputField()
 
+end
+function GetInputField()
+	local arrObj = {}
+	for i = 1,7  do
+		local go = LuaGo.Find(arrInput[i])
+		local input = go.GetInputFieldTMPro()
+		arrObj[i] = input
+	end
+	Login.LuaCall_GetObjInputField(arrObj)
 end
 
 function SetupButtonBackRegister(btnPath)
@@ -100,9 +159,72 @@ function SetupButtonLogin(btnPath)
 	end)
 	
 end
+function SetupButtonForgotPass()
+	local btn = LuaGo.Find(_btnForgotPass)
+	local objSendMail = LuaGo.Find(_objSendMail)
+	local objResendCode = LuaGo.Find(_objSendOTP)
+	local objNewPass = LuaGo.Find(_objNewPass)
+	btn.RegisterButtonPressedCallback(function ()
+		local objForgot = LuaGo.Find(_objPopupForgotPass)
+		objForgot.SetActive(true)
+		objSendMail.SetActive(true)
+		objResendCode.SetActive(false)
+		objNewPass.SetActive(false)
+		local btnBackPopupForgot = LuaGo.Find(_btnBackPopupForgot)
+		btnBackPopupForgot.SetActive(false)
+		Login.LuaCall_GetObjSendMail(objSendMail)
+
+	end)
+end
+function SetupButtonSendEmail()
+	local btn = LuaGo.Find(_btnSendForgot)
+	
+	btn.RegisterButtonPressedCallback(function ()
+		local inputmailForgot = LuaGo.Find(_inputFieldEmailForgot)
+		local mail = inputmailForgot.GetText()
+		Login.LuaCall_SendMail(mail)
+	end)
+	
+end
+function SetupButtonResendMail()
+	local btn = LuaGo.Find(_btnResentMail)
+	btn.RegisterButtonPressedCallback(function ()
+		Login.LuaCall_ResendMail()
+	end)
+end
+function SetupButtonCheckOtp()
+	local btn = LuaGo.Find(_btnCheckOtp)
+	
+	btn.RegisterButtonPressedCallback(function ()
+		Login.LuaCall_CheckOTP()
+	end)
+end
+function SetupButtonChangePass()
+	local btn = LuaGo.Find(_btnChangePass)
+	btn.RegisterButtonPressedCallback(function ()
+		local inputpass = LuaGo.Find(_inputFieldNewPass)
+		local inputConfirmPass = LuaGo.Find(_inputFieldConfirmNewPass)
+		local textPass = inputpass.GetText()
+		local textConfirmPass = inputConfirmPass.GetText()
+		Login.LuaCall_ChangePass(textPass,textConfirmPass)
+	end)
+end
+function SetupButtonBackForgot()
+	local btn = LuaGo.Find(_btnBackForgot)
+	btn.RegisterButtonPressedCallback(function ()
+		local objPopupForgotPass = LuaGo.Find(_objPopupForgotPass)
+		objPopupForgotPass.SetActive(false)
+		Login.LuaCallBackfromForgot()
+	end)
+end
+function SetupButtonBackPopupScrenForgot()
+	local btn = LuaGo.Find(_btnBackPopupForgot)
+	btn.RegisterButtonPressedCallback(function ()
+		Login.LuaCall_BackPopupForgot()
+	end)
+end
 
 function SelectInputField(inputField)
-	Log(inputField)
 	local obj = LuaGo.Find(inputField)
 	obj.RegisterEventTriggerPointerClickCallback(function ()
 		SetInputFieldImage("enter text_choose", inputField)
@@ -118,7 +240,7 @@ function SetInputFieldImage(image, inputField)
 	obj.SetSprite(image,obj)
 end
 
-function GetText(btnPath)
+function GetText1(btnPath)
 	local textObj = LuaGo.Find(btnPath)
 	local text = textObj.GetText()
 	Login.LuaCall_LoginGuest_OnClicked(text)
@@ -192,6 +314,12 @@ function SetButtonInfo(btnpath)
 		SetActiveInfo()	
     end)
 end
+function SetUnActivePopup()
+	SetActiveObjCreate(false)
+	local objFogot = LuaGo.Find(_objPopupForgotPass)
+	objFogot.SetActive(false)
+
+end
 function SetActiveObjCreate(isActive)
 	local objCreate = LuaGo.Find(_objCreate)
 	objCreate.SetActive(isActive)
@@ -246,6 +374,51 @@ function CallRegisterAccount()
 	local inputRePassword = LuaGo.Find(_inputFieldRePasswordRegister)
 	local textInputRePassword = inputRePassword.GetText()
 	Login.LuaCall_Register(textUserName,textInputMailRegister,textInputPassword,textInputRePassword)
+end
+function SetupTitleForgotPass(title1,title2)
+	local txtTitleForgot = LuaGo.Find(_txtTitleForgot)
+	txtTitleForgot.SetText(title1)
+	local txtTitleNote = LuaGo.Find(_txtTileNote)
+	txtTitleNote.SetText(title2)
+end
+function ShowPanelOtp(email)
+	local title1 = 'Enter your code'
+	local title2 ='Enter your recovery code from '.. email
+	SetupTitleForgotPass(title1,title2)
+	local objotp  = LuaGo.Find(_objSendOTP);
+	objotp.SetActive(true);
+	local objSendMail = LuaGo.Find(_objSendMail)
+	objSendMail.SetActive(false);
+	local objChangePass = LuaGo.Find(_objNewPass)
+	objChangePass.SetActive(false)
+	
+	Login.LuaCall_GetObjPanelOTP(objotp)
+	local btnBackPopupForgot = LuaGo.Find(_btnBackPopupForgot)
+	btnBackPopupForgot.SetActive(true)
+end
+function ShowPanelChangPass()
+	local objotp  = LuaGo.Find(_objSendOTP);
+	objotp.SetActive(false);
+	local objSendMail = LuaGo.Find(_objSendMail)
+	objSendMail.SetActive(false);
+	local objChangePass = LuaGo.Find(_objNewPass)
+	objChangePass.SetActive(true)
+	Login.LuaCall_GetObjPanelNewPass(objChangePass)
+	
+
+end
+function CloseAllPanel()
+	CloseCreateNowPanel()
+	local panelForgot = LuaGo.Find(_objPopupForgotPass)
+	panelForgot.SetActive(false)
+end
+function SetActiveGameObject(obj,isActive)
+	obj.SetActive(isActive)
+	
+end
+function HidePopupForgotPass()
+	local objForgot = LuaGo.Find(_objPopupForgotPass)
+	objForgot.SetActive(false)
 end
 function Hide()
 end

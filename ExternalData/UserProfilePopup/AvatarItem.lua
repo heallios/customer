@@ -23,8 +23,8 @@ end
 function Refresh()
 	local objAvatar  = LuaGo.Find("Image")
 	local objFrame = LuaGo
-	objAvatar.SetSprite(AvatarItem.Model.Entity.Name,objAvatar)
-	if(AvatarItem.Model.Entity.IsUse)
+	objAvatar.SetSpriteForImage(AvatarItem.Model.Entity.sprite,objAvatar)
+	if(AvatarItem.Model.Entity.isUse)
 	then
 		objFrame.SetSprite("frames_select")
 	else

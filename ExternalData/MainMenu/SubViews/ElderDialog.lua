@@ -11,9 +11,9 @@ local _nextButtonPath = "button_NextContent"
 local _skipButtonPath = "button_SkipContent"
 
 local _sentences = {
-	"Welcome Helutian! The Silencing has wiped out our memory. We knew this would happen. We began storing everything we knew into a digital archive.",
+	"Welcome Helutian! The Silencing has wiped out our memory. We knew this would happen.",
 	"The device you hold in your hands is our Helutian memory. Treat it well. It will be your best friend.",
-	"As you review the modules in this digital archive, you will acquire the knowledge needed to rebuild our world. Are you ready?"
+	"Are you ready?"
 }
 
 function OnReady()

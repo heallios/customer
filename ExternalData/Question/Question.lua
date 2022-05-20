@@ -42,6 +42,7 @@ local _btnAudioPath ="soundBtn"
 local _btnInfoPath ="head/InfoBtn"
 local _btnNextTransitionPath ="PopupGroup/TransitionScreenPanel/btnNextTransition"
 local _btnNextEndScreenPath ="PopupGroup/EndScreenPanel/btnNextEndScreen"
+local _btnTryAgainEndScreenPath = "PopupGroup/EndScreenPanel/btnTryAgainEndScreen"
 local _btnExitEndScreenPath = "PopupGroup/EndScreenPanel/btnExitEndScreen"
 
 local _optionalPanelPath = "PopupGroup/OptionPanel"
@@ -64,6 +65,7 @@ local _correctPanelPath = "foot/CorrectPanel"
 local _wrongPanelPath = "foot/WrongPanel"
 
 local _questionContainer = "QuestionContainer"
+
 
 local _qciaTypes = {
 	"Question/SubViews/QCIASlotItem",
@@ -105,23 +107,9 @@ local _questions = {
 	"Question/SubViews/QuestionAnswerMultipleChoicePicture"
 }
 
-local _tutorialPath = "PopupGroup/TutorialContainer"
-
 local _popupBalloonPath = "PopupGroup/ResetInputFieldPanel"
 local _popupBalloonObjPath = "PopupGroup/ResetInputFieldPanel/ResetPopup"
 
-local _tutorialButtonGroupPath = "PopupGroup/TutorialContainer/QuestionPageTutorial/ButtonGroup/"
-
-local _tutorialButtonPaths ={
-	"InfoBtn",
-	"closeBtn",
-	"tapInfo",
-	"tapClose",
-	"soundBtn",
-	"tapAudio",
-	"nextBtn",
-	"tapNext"
-}
 local _imgPointPath ={
 	"PopupGroup/EndScreenPanel/imgBg/bg_bar/fillbar/point1",
 	"PopupGroup/EndScreenPanel/imgBg/bg_bar/fillbar/point2",
@@ -140,9 +128,6 @@ local _txtGoldFinal = "PopupGroup/EndScreenPanel/objCurrency/Gold/txtGold"
 local _txtEndCurrency ="PopupGroup/EndScreenPanel/objCurrency"
 local _txtEndOld = "PopupGroup/EndScreenPanel/OldTxt"
 
-
-local _tutorialCloseBtnPath = "PopupGroup/TutorialContainer/QuestionPageTutorial/TutorialCloseBtn"
-
 local _commingSoonBtnPath = "PopupGroup/CommingSoonPanel"
 
 local _commingSoonCloseBtnPath = "PopupGroup/CommingSoonPanel/CommingSoonPopup/quitBtn"
@@ -155,6 +140,7 @@ local _quitQuizitPath = "PopupGroup/PausePanel/Popup/quitBtn"
 local _pausePanelPath = "PopupGroup/PausePanel"
 
 local _endQuizitLearnMoreBtnPath = "PopupGroup/EndPanelQuizit/ButtonGroup/LearnMoreBtn"
+local _tryAgainQuizitLearnMoreBtnPath = "PopupGroup/EndPanelQuizit/ButtonGroup/TryAgainBtn"
 local _endQuizitQuitBtnPath = "PopupGroup/EndPanelQuizit/ButtonGroup/QuitBtn"
 
 local _popupPath = "PopupGroup/PopupPanel"
@@ -188,6 +174,124 @@ local abBlue = "AnalaticBox"
 local abGreen = "AnalaticBox_Green"
 local abRed = "AnalaticBox_Red"
 
+local tutorialImgMCQ = {
+	"tutor_MCQ"
+}
+
+local tutorialDesMCQ = {
+	"You need to choose the correct data to decrypt this cell\nCorrect data will turn green, wrong data will turn red."
+}
+
+local tutorialImgMCQv2 = {
+	"tutor_MCQv2"
+}
+
+local tutorialDesMCQv2 = {
+	"Guardian, you need to pick the correct picture with the promt above to decrypt this cell"
+}
+
+local tutorialImgTextInput = {
+	"tutor_textInput"
+}
+
+local tutorialDesTextInput = {
+	"Guardian, you need to input the correct data by choose the character in the keyboard below.\nIf the all data is correct, this cell will be decrypt."
+}
+
+local tutorialImgComicMCQ = {
+	"tutor_comicMCQ_1",
+	"tutor_comicMCQ_2"
+}
+
+local tutorialDesComicMCQ = {
+	"Guardian, you need to read all the page of comic first",
+	"After that, choose the correct data to decrypt this cell"
+}
+
+local tutorialImgComicTextInput = {
+	"tutor_comicText_1",
+	"tutor_comicText_2"
+}
+
+local tutorialDesComicTextInput = {
+	"Guardian, you need to read all the page of comic first",
+	"After that, input the correct data with those promt above."
+}
+
+local tutorialImgComicInteractive = {
+	"tutor_comicInteractive"
+}
+
+local tutorialDesComicInteractive = {
+	"Guardian, decrypt the comic by do exacly what it tell you to do."
+}
+
+
+local tutorialImgDragAndDrop = {
+	"tutor_DragAndDrop"
+}
+
+local tutorialDesDragAndDrop = {
+	"Guardian, you need drag the data at the bottom of the screen into the place holder when hearing the audio tape.\nWhen everythings is correct. You can finally decrypt this cell"
+}
+
+local _tutorialPageIndex = 1
+local _tutorialImgArray = nil
+local _tutorialDesArray = nil
+
+local _popupTutorialPath = "PopupGroup/PopupTutorial"
+local _imgTutorialPath = "PopupGroup/PopupTutorial/imgTutorial"
+local _desTutorialPath = "PopupGroup/PopupTutorial/desTutorial"
+
+local _nextTutorialPath = "PopupGroup/PopupTutorial/nextBtn"
+local _backTutorialPath = "PopupGroup/PopupTutorial/backBtn"
+
+local _groupCirclePath = "PopupGroup/PopupTutorial/groupCircle"
+local _circleTutorial1Path = "PopupGroup/PopupTutorial/groupCircle/circle_1"
+local _circleTutorial2Path = "PopupGroup/PopupTutorial/groupCircle/circle_2"
+
+local _circleColor1 ="#FFFFFF"
+local _circleColor2 ="#676666"
+
+--MultpleChoice = 1,
+--FillInTextBox = 4,
+--DragAndDrop = 5,
+--ComicWithMCQ = 6,
+--ComicWithTextInput = 7,
+--ComicInteractive = 9,
+--MultpleChoicePicture = 11
+
+local _groupTutorialImgArray = {
+	tutorialImgMCQ,
+	tutorialImgMCQ,
+	tutorialImgMCQ,
+	tutorialImgTextInput,
+	tutorialImgDragAndDrop,
+	tutorialImgComicMCQ,
+	tutorialImgComicTextInput,
+	tutorialImgComicTextInput,
+	tutorialImgComicInteractive,
+	tutorialImgComicInteractive,
+	tutorialImgMCQv2
+}
+
+local _groupTutorialDesArray = {
+	tutorialDesMCQ,
+	tutorialDesMCQ,
+	tutorialDesMCQ,
+	tutorialDesTextInput,
+	tutorialDesDragAndDrop,
+	tutorialDesComicMCQ,
+	tutorialDesComicTextInput,
+	tutorialDesComicTextInput,
+	tutorialDesComicInteractive,
+	tutorialDesComicInteractive,
+	tutorialDesMCQv2
+}
+
+local _endGemObjPath = "PopupGroup/EndScreenPanel/objCurrency/Gem"
+local _endGoldObjPath = "PopupGroup/EndScreenPanel/objCurrency/Gold"
+
 function OnReady()
 	FindUI()
 
@@ -200,6 +304,9 @@ function OnReady()
 	SetupButtonNext(_nextBtnPath3)
 	SetupButtonNext(_panelCorrectPath)
 	SetupButtonNext(_panelWrongPath)
+	SetupButtonNext(_correctPanelPath)
+	SetupButtonNext(_wrongPanelPath)
+
 
 	SetupButtonOpenAb()
 	SetupButtonCloseAb()
@@ -212,6 +319,8 @@ function OnReady()
 	SetupOptionBtn(_closeOptionPath, false)
 	SetupOptionBtn(_optionalPanelPath, false)
 
+	SetupButtonReset(_btnTryAgainEndScreenPath)
+	SetupButtonReset(_tryAgainQuizitLearnMoreBtnPath)
 	SetupButtonReset(_resetBtnPath)
 	SetupButtonReset(_resetQuizitPath)
 
@@ -227,7 +336,6 @@ function OnReady()
 	SetupButtonNextEndScreen(_endQuizitLearnMoreBtnPath)
 
 	SetupBtnInfo()
-	SetupTutorialButtons()
 
 	SetupPauseBtn(_pauseBtnPath, true)
 	SetupPauseBtn(_pausePanelPath, false)
@@ -236,6 +344,9 @@ function OnReady()
 	Question.LuaCall_CreatePages()
 
 	SetActiveFalseWrongPanel2()
+
+	SetBtnNextTutorial(_nextTutorialPath)
+	SetBtnBackTutorial(_backTutorialPath)
 end
 
 
@@ -320,9 +431,6 @@ function SetupOptionBtn(btnPath, isActive)
 	btn.RegisterButtonPressedCallback(function ()
 		SetActiveOptionPanel(isActive)
     end)
-	if(isActive) then
-		--numQuizit = 0
-	end
 end
 
 function SetupButtonReset(btnPath)
@@ -332,8 +440,17 @@ function SetupButtonReset(btnPath)
 		Question.LuaCall_ResetQuestionOnClick()
 		SetActiveOptionPanel(false)
 		SetActivePausePanel(false)
-		SetActiveEndQuizitPanel(false);
+		SetActiveEndQuizitPanel(false)
+		SetActiveEndScreenPanel(false)
 		LoopRandomText()
+		local btnNextEnd = LuaGo.Find(_btnNextEndScreenPath)
+		btnNextEnd.SetOpacityObject(0)
+
+		local btnQuitEnd = Luago.Find(_btnExitEndScreenPath)
+		btnQuitEnd.SetOpacityObject(0)
+	
+		local btnTryAgainEnd = LuaGo.Find(_btnTryAgainEndScreenPath)
+		btnTryAgainEnd.SetOpacityObject(0)
     end)
 end
 
@@ -355,6 +472,13 @@ function SetupButtonNextEndScreen(btnPath)
 		Question.LuaCall_NextEndScreen();
     end)
 end
+
+function SetupButtonTryAgain(btnPath)
+	local btn = LuaGo.Find(btnPath)	
+	btn.RegisterButtonPressedCallback(function ()
+		Question.LuaCall_TryAgain();
+    end)
+end
 function SetupButtonExitEndScreen(btnPath)
 	local btn = LuaGo.Find(btnPath)	
 	btn.RegisterButtonPressedCallback(function ()
@@ -368,7 +492,6 @@ function LoadQuestionMainPage(type)
 end
 
 function LoadQuestionLearningPage(type)
-	Log(_learningPagePath[type])
 	local content = LuaGo.Find(_questionContainer);
 	CreateSubView(_learningPagePath[type], content.Transform)
 end
@@ -381,6 +504,13 @@ function LoadAnswerObject(type)
 end
 
 function SetActiveOptionPanel(isActive)
+	if isActive then
+		Question.LuaCall_PauseSound(Question.Model.CurrentAudioPath)
+		Question.LuaCall_PauseTextSyncAudioSource()
+	else
+		Question.LuaCall_ResumeSound(Question.Model.CurrentAudioPath)
+		Question.LuaCall_ResumeTextSyncAudioSource()
+	end
 	local cellTxt = LuaGo.Find(_optionCellPath)
 	cellTxt.SetText("Cell: " .. Question.Model.CellId)
 
@@ -408,7 +538,8 @@ function SetActiveLoadingPanel(isActive)
 	obj.SetActive(isActive)
 end
 
-function SetActiveBtnNext(isActive)
+
+function SetActiveBtnNext(isActive)	
 	local obj = LuaGo.Find(_nextBtnPath)
 	obj.SetActive(isActive)
 	local obj2 = LuaGo.Find(_nextBtnPath2)
@@ -425,6 +556,7 @@ function SetActiveBtnBack(isActive)
 	local obj3 = LuaGo.Find(_backBtnPath3)
 	obj3.SetActive(isActive)
 end
+
 
 function SetupBtnPlayAudio()
 	local obj = LuaGo.Find(_btnAudioPath)
@@ -444,8 +576,7 @@ end
 function SetupBtnInfo()
 	local obj = LuaGo.Find(_btnInfoPath)
 	obj.RegisterButtonPressedCallback(function ()
-		local tutor = LuaGo.Find(_tutorialPath)
-		tutor.SetActive(true)
+		SetActivePopupTutorial(true)
     end)
 end
 
@@ -549,23 +680,6 @@ function ActivePopup()
 	end
 end
 
-function SetupTutorialButtons()
-	local obj = LuaGo.Find(_tutorialCloseBtnPath)
-	obj.RegisterButtonPressedCallback(function ()
-			local tutor = LuaGo.Find(_tutorialPath)
-			tutor.SetActive(false)
-	end)
-	--for i = 1, #_tutorialButtonPaths do
-
-		--local obj = LuaGo.Find(string.format("%s%s",_tutorialButtonGroupPath,_tutorialButtonPaths[i]))
-		--obj.RegisterButtonPressedCallback(function ()
-			--local tutor = LuaGo.Find(_tutorialPath)
-			--tutor.SetActive(false)
-		--end)
-
-	--end
-end
-
 function SetActiveTransitionPanel(isActive)
 	local obj = LuaGo.Find(_transitionPanelPath)
 	obj.SetActive(isActive)
@@ -590,64 +704,146 @@ function SetDataTransitionScreen(title,des)
 	
 end
 
-function SetDataEndScreen(keyTopic, score, fillAmount,timeDuration, numPoint, imgPathPoint,opacity,gold, gem)
+function SetDataEndScreen(keyTopic, score, fillAmount, numPoint, imgPathPoint,opacity,gold, gem)
 
 	local textScore = LuaGo.Find(_txtTexScore);
-	textScore.SetText(score)
+	textScore.SetTextDoCounterWithMoreText(0 , score, "%", 3)
 
 	local imgFill = LuaGo.Find(_txtImgFillScore)
-	imgFill.DoFill(fillAmount,timeDuration)
+	imgFill.DoFill(fillAmount,3)
 
+	Question.LuaCall_PlaySoundWithDuration("Question/sfx_endscreen_circle", 3)
+	
+	local gemObj = LuaGo.Find(_endGemObjPath)
+	gemObj.SetImageOpacity(0)
 	local objGem = LuaGo.Find(_txtGemFinal)
 	objGem.SetText(gem)
+	objGem.SetTextOpacity(0)
 
+	local goldObj = LuaGo.Find(_endGoldObjPath)
+	goldObj.SetImageOpacity(0)
 	local objGold = LuaGo.Find(_txtGoldFinal)
 	objGold.SetText(gold)
+	objGold.SetTextOpacity(0)
 
 	local obj = LuaGo.Find(_txtTopicNameEndScreenPath)
 	obj.SetText(keyTopic);
 
 	local co = coroutine.create(function ()
 		for i = 1 , numPoint do 
-			Wait(0.5)
+			Wait(0.4)
 			local objImgPoint = LuaGo.Find(_imgPointPath[i])
 			objImgPoint.SetSprite(imgPathPoint)
 
 			local objEnergyPath = LuaGo.Find(_imgEnergyPath[i])
 			objEnergyPath.SetImageOpacity(opacity)
 		end
+		Wait(1)
+		Question.LuaCall_PlaySound("Question/sfx_endscreen_curency")
+		gemObj.SetActive(true)
+		gemObj.DoFadeImage(1, 0.25)
+		objGem.DoFadeText(1, 0.25)
+
+		Wait(0.35)
+		Question.LuaCall_PlaySound("Question/sfx_endscreen_curency")
+		goldObj.SetActive(true)
+		goldObj.DoFadeImage(1, 0.25)
+		objGold.DoFadeText(1, 0.25)
+
+		Wait(1)
+
+		local btnNextEnd = LuaGo.Find(_btnNextEndScreenPath)
+		btnNextEnd.DoFadeObject(1, 0.25)
+
+		local btnTryAgainEnd = LuaGo.Find(_btnTryAgainEndScreenPath)
+		btnTryAgainEnd.DoFadeObject(1, 0.25)
+
+		Wait(0.375)
+
+		local btnQuitEnd = LuaGo.Find(_btnExitEndScreenPath)
+		btnQuitEnd.DoFadeObject(1, 0.25)
     end)
 	coroutine.resume(co)
+
+	local co2 = coroutine.create(function ()
+		for i = 1 , numPoint do 
+			Wait(0.4)
+			Question.LuaCall_PlaySound("Question/sfx_endscreen_energy")
+			local objEnergyPath = LuaGo.Find(_imgEnergyPath[i])
+
+			objEnergyPath.DoScaleAnim(1.25, 1.25, 1.25, 0.125)
+			Wait(0.125)
+			objEnergyPath.DoScaleAnim(1, 1, 1, 0.125)
+		end
+    end)
+	coroutine.resume(co2)
 end
 
-function SetDataEndScreenOld(keyTopic, score, fillAmount,timeDuration, numPoint, imgPathPoint,opacity)
+local _endMessageTxtPath = "PopupGroup/EndScreenPanel/OldTxt"
+local _failMessage = "You have fail this cell, please try again."
+local _claimedMessage = "You already claimed your gift last time."
 
+function SetDataEndScreenOld(keyTopic, score, fillAmount, numPoint, imgPathPoint,opacity)
 	local textScore = LuaGo.Find(_txtTexScore);
-	textScore.SetText(score)
+	textScore.SetTextDoCounterWithMoreText(0 , score, "%", 3)
 
 	local imgFill = LuaGo.Find(_txtImgFillScore)
-	imgFill.DoFill(fillAmount,timeDuration)
+	imgFill.DoFill(fillAmount, 3)
 
 	local currencyGroup = LuaGo.Find(_txtEndCurrency)
 	currencyGroup.SetActive(false)
 
 	local oldTxt = LuaGo.Find(_txtEndOld)
-	oldTxt.SetActive(true)
+	oldTxt.SetText("")
 
 	local obj = LuaGo.Find(_txtTopicNameEndScreenPath)
 	obj.SetText(keyTopic);
 
 	local co = coroutine.create(function ()
 		for i = 1 , numPoint do 
-			Wait(0.5)
+			Wait(0.4)
 			local objImgPoint = LuaGo.Find(_imgPointPath[i])
 			objImgPoint.SetSprite(imgPathPoint)
 
 			local objEnergyPath = LuaGo.Find(_imgEnergyPath[i])
 			objEnergyPath.SetImageOpacity(opacity)
 		end
+		Wait(1)
+
+		if numPoint == 0 then
+			oldTxt.SetTextDoTweenAnimation(_failMessage, 1)
+		else
+			oldTxt.SetTextDoTweenAnimation(_claimedMessage, 1)
+		end
+
+		Wait(1)
+
+		local btnNextEnd = LuaGo.Find(_btnNextEndScreenPath)
+		btnNextEnd.DoFadeObject(1, 0.25)
+
+		local btnTryAgainEnd = LuaGo.Find(_btnTryAgainEndScreenPath)
+		btnTryAgainEnd.DoFadeObject(1, 0.25)
+
+		Wait(0.375)
+
+		local btnQuitEnd = LuaGo.Find(_btnExitEndScreenPath)
+		btnQuitEnd.DoFadeObject(1, 0.25)
+	
+
     end)
 	coroutine.resume(co)
+
+	local co2 = coroutine.create(function ()
+		for i = 1 , numPoint do 
+			Wait(0.4)
+			local objEnergyPath = LuaGo.Find(_imgEnergyPath[i])
+
+			objEnergyPath.DoScaleAnim(1.25, 1.25, 1.25, 0.125)
+			Wait(0.125)
+			objEnergyPath.DoScaleAnim(1, 1, 1, 0.125)
+		end
+    end)
+	coroutine.resume(co2)
 end
 
 function LoadDragItem()
@@ -930,6 +1126,125 @@ end
 
 function ChangeWrongAb()
 	ChangeImgAbBox(abRed, abBlue)
+end
+
+function SetActivePopupTutorial(isActive)
+	SetDefaultTutorialPopup()
+
+	if isActive then
+		Question.LuaCall_PauseSound(Question.Model.CurrentAudioPath)
+		Question.LuaCall_PauseTextSyncAudioSource()
+		OpenTutorialPopup()
+	else
+		Question.LuaCall_ResumeSound(Question.Model.CurrentAudioPath)
+		Question.LuaCall_ResumeTextSyncAudioSource()
+	end
+
+	local _popup = LuaGo.Find(_popupTutorialPath)
+	_popup.SetActive(isActive)
+end
+
+function SetDefaultTutorialPopup()
+	_tutorialPageIndex = 1
+
+	local circleGroup = LuaGo.Find(_groupCirclePath)
+	circleGroup.SetActive(false)
+
+	local btnBackTutorial = LuaGo.Find(_backTutorialPath)
+	btnBackTutorial.SetActive(false)
+end
+
+
+function OpenTutorialPopup()
+	_tutorialImgArray = _groupTutorialImgArray[Question.Model.CurrentQuestionType]
+	_tutorialDesArray = _groupTutorialDesArray[Question.Model.CurrentQuestionType]
+
+	if Question.Model.CurrentQuestionType == 6 or Question.Model.CurrentQuestionType == 7 or Question.Model.CurrentQuestionType == 9 then
+		local _popup = LuaGo.Find(_popupTutorialPath)
+		_popup.SetImageOpacity(0.9)
+	else
+		local _popup = LuaGo.Find(_popupTutorialPath)
+		_popup.SetImageOpacity(0.5)
+	end
+
+	if #_tutorialImgArray > 1 then
+		local circleGroup = LuaGo.Find(_groupCirclePath)
+		circleGroup.SetActive(true)
+
+		SetCircleTutorialColor(_circleColor1, _circleColor2)		
+	end
+
+	SetTutorialPageWithIndex()
+end
+
+function SetTutorialPageWithIndex()
+	local tutorialImg = LuaGo.Find(_imgTutorialPath)
+	tutorialImg.SetSprite(_tutorialImgArray[_tutorialPageIndex])
+
+	local tutorialDes = LuaGo.Find(_desTutorialPath)
+	tutorialDes.SetText(_tutorialDesArray[_tutorialPageIndex])
+end
+
+function SetCircleTutorialColor(color1, color2)
+	local circle1 = LuaGo.Find(_circleTutorial1Path)
+	circle1.SetImgHexColor(color1)
+
+	local circle2 = LuaGo.Find(_circleTutorial2Path)
+	circle2.SetImgHexColor(color2)
+end
+
+function NextTutorialOnclick()
+	if _tutorialPageIndex < #_tutorialImgArray then
+		MoveNextTutorial()
+	else
+		SetActivePopupTutorial(false)
+	end
+end
+
+function MoveNextTutorial()
+		_tutorialPageIndex = _tutorialPageIndex + 1
+		SetTutorialPageWithIndex()
+		SetCircleTutorialColor(_circleColor2, _circleColor1)
+		local btnBackTutorial = LuaGo.Find(_backTutorialPath)
+		btnBackTutorial.SetActive(true)
+end
+
+function MoveBackTutorial()
+		_tutorialPageIndex = _tutorialPageIndex - 1
+		SetTutorialPageWithIndex()
+		SetCircleTutorialColor(_circleColor1, _circleColor2)
+		if _tutorialPageIndex == 1 then
+			local btnBackTutorial = LuaGo.Find(_backTutorialPath)
+			btnBackTutorial.SetActive(false)
+		end
+end
+
+function SetBtnNextTutorial(btnPath)
+	local btn = LuaGo.Find(btnPath)
+	btn.RegisterButtonPressedCallback(function ()
+		NextTutorialOnclick()
+    end)
+end
+
+function SetBtnBackTutorial(btnPath)
+	local btn = LuaGo.Find(btnPath)
+	btn.RegisterButtonPressedCallback(function ()
+		MoveBackTutorial()
+    end)
+end
+
+function SetActiveTryAgainButtons()
+	local btn1 = LuaGo.Find(_btnNextEndScreenPath)
+	btn1.SetActive(false)
+
+	local btn2 = LuaGo.Find(_endQuizitLearnMoreBtnPath)
+	btn2.SetActive(false)
+
+	local btn3 = LuaGo.Find(_btnTryAgainEndScreenPath)
+	btn3.SetActive(true)
+
+	local btn4 = LuaGo.Find(_tryAgainQuizitLearnMoreBtnPath)
+	btn4.SetActive(true)
 end
 
 function Hide()
